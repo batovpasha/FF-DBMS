@@ -13,7 +13,7 @@ class Collection { // a class that describes the structure and behavior of the c
 
   createHash(key, password) { // a function that generates a hash value for a given key
     const cipher = crypto.createCipher('aes192', password);
-   
+
     let hash = cipher.update(key, 'utf8', 'hex') + cipher.final('hex');
     return hash;
   }
@@ -23,7 +23,7 @@ class Collection { // a class that describes the structure and behavior of the c
       let key = '';
 
       this.keySchema.forEach(i => key += item[i].toString());
-      
+
       let hash = this.createHash(key, password);
       this.hashTable.set(hash, new Item(hash, ++this.numberOfItems, item));
     }
@@ -31,8 +31,8 @@ class Collection { // a class that describes the structure and behavior of the c
 
   findItem(query, password) { // element by key search method
     let key = '';
-    
-    for (let i of this.keySchema) 
+
+    for (let i of this.keySchema)
       key += item[i].toString();
 
     let hash = this.createHash(key, password);
@@ -73,3 +73,7 @@ class Collection { // a class that describes the structure and behavior of the c
 // col.drop();
 
 // console.dir(col);
+
+module.exports = {
+  Collection
+}
