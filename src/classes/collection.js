@@ -1,5 +1,6 @@
 const ItemSchema = require('./item.js').ItemSchema;
 const Item = require('./item.js').Item;
+
 const crypto = require('crypto');
 
 class Collection { // a class that describes the structure and behavior of the collection
