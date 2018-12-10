@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/batovpasha/FF-DBMS/issues"
   },
-  "homepage": "https://github.com/batovpasha/FF-DBMS#readme"
+  "homepage": "https://github.com/batovpasha/FF-DBMS#readme",
+  "dependencies": {
+    "nodemon": "^1.18.7"
+  }
 }
