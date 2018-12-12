@@ -1,8 +1,8 @@
 const Item = require('./item.js').Item;
 
 class Node{
-  constructor(type, key, value){
-    this.type = type;
+  constructor(field, key, value){
+    this.field = field;
     this.key = key;
     this.value = value;
     this.alternativeTree = undefined;
@@ -18,16 +18,16 @@ class SearchTree{ // a class that describes the structure and implementation of 
     this.root = undefined;
   }
 
-  switchBranch(node, branch, item, type){ // method to switch to another branch when inserting element
-    if (node[branch] == undefined) node[branch] = new Node(type, item[type], item);
+  switchBranch(node, branch, item, field){ // method to switch to another branch when inserting element
+    if (node[branch] == undefined) node[branch] = new Node(field, item[field], item);
     else this.insertNode(node[branch], item);
   }
 
-  switchTree(node, type, item){ // method to switch to another tree(alternative) when inserting element
+  switchTree(node, field, item){ // method to switch to another tree(alternative) when inserting element
 
     if (node.alternativeTree == undefined){
 
-      let nextType = this.arrayOfFields[this.arrayOfFields.indexOf(node.type) + 1];
+      let nextType = this.arrayOfFields[this.arrayOfFields.indexOf(node.field) + 1];
 
       if(nextType != undefined){
         node.alternativeTree = new Node(nextType, node.value[nextType], node.value);
@@ -39,9 +39,9 @@ class SearchTree{ // a class that describes the structure and implementation of 
   }
 
   createRoot(item){ // root initialization method when inserting the first element
-    let type = this.arrayOfFields[0];
-    let key = item[type];
-    this.root = new Node(type, key, item);
+    let field = this.arrayOfFields[0];
+    let key = item[field];
+    this.root = new Node(field, key, item);
   }
 
   insertNode(...args){  // method of adding a node to a tree
@@ -50,17 +50,16 @@ class SearchTree{ // a class that describes the structure and implementation of 
 
       let node = args[0];
       let item = args[1];
-      let type = node.type;
+      let field = node.field;
 
-      if (type in item){
+      if (!(field in item)) item[field] = '';
 
-        if (item[type] == node.key) this.switchTree(node, type, item);
+      if (item[field] == node.key) this.switchTree(node, field, item);
 
-        if (item[type] > node.key) this.switchBranch(node, 'right', item, type);
+      if (item[field] > node.key) this.switchBranch(node, 'right', item, field);
 
-        if (item[type] < node.key) this.switchBranch(node, 'left', item, type);
+      if (item[field] < node.key) this.switchBranch(node, 'left', item, field);
 
-      }
 
     } else if (args.length == 1){
 
@@ -80,21 +79,21 @@ class SearchTree{ // a class that describes the structure and implementation of 
       let node = args[0];
       let item = Object.assign({}, args[1]);;
       let resultArray = args[2];
-      let type = node.type;
+      let field = node.field;
 
-      if (type in item){
+      if (field in item){
 
-        if(item[type] == node.key){
-          delete item[type];
+        if(item[field] == node.key){
+          delete item[field];
           if (node.alternativeTree) this.searchItem(node.alternativeTree, item, resultArray);
           else resultArray.push(node.value);
         }
 
-        if(item[type] > node.key && node.right){
+        if(item[field] > node.key && node.right){
           this.searchItem(node.right, item, resultArray);
         }
 
-        if(item[type] < node.key && node.left){
+        if(item[field] < node.key && node.left){
           this.searchItem(node.left, item, resultArray);
         }
 
@@ -120,41 +119,30 @@ class SearchTree{ // a class that describes the structure and implementation of 
 
 /* ---EXAMPLES--- */
 
-// let item1 = {
-//   name: 'Peter',
-//   surname: 'Digger',
-//   age: 23
-// }
+// let obj1 = {
+//   name: 'Homer',
+//   surname: 'Simpson',
+//   age: 29,
+//   school: 32,
+//   city: 'Kiev'
+// };
+//
+// let obj2 = {
+//   name: 'Pasha',
+//   surname: 'Batov',
+//   city: 'Lutsk'
+// };
 //
 //
-// let item2 = {
-//   name: 'Dick',
-//   surname: 'Digger',
-//   age: 23
-// }
+// let tree = new SearchTree(['name', 'surname', 'age', 'school', 'city']);
 //
-// let item3 = {
-//   name: 'Nick',
-//   surname: 'zigger',
-//   age: 23
-// }
 //
-// let item4 = {
-//   name: 'Dick',
-//   surname: 'zigger',
-//   age: 25
-// }
-//
-// let tree = new SearchTree(['name', 'surname', 'age']);
-//
-// tree.insertNode(item1);
-// tree.insertNode(item2);
-// tree.insertNode(item3);
-// tree.insertNode(item4);
+// tree.insertNode(obj1);
+// tree.insertNode(obj2);
 //
 // let result = [];
 //
-// let searchQuery = {surname: 'zigger'};
+// let searchQuery = {name: 'Homer'};
 //
 // tree.searchItem(searchQuery, result)
 // console.dir(result);
