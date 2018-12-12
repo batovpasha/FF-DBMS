@@ -13,7 +13,7 @@ class HashSpace { // chaining hash table
     return set.join(''); // return joined set values as hash
   }
 
-  getPowerSet(item) {
+  getPowerSet(item) { // get all subsets of item values set
     return Object.values(item).reduce((subsets, value) => {
       return subsets.concat(subsets.map(set => [...set, value])) 
     }, [[]]);
@@ -21,7 +21,7 @@ class HashSpace { // chaining hash table
 
   insert(item) {
     if (this.itemSchema.validityCheck(item)) {
-      this.items.push(item); // add the new maybe not 
+      this.items.push(item); // add the new maybe not unique item
       // get all subsets of item values set and sort it for correct order
       let itemValuesPowerSet = this.getPowerSet(item).map(set => set.sort());
       itemValuesPowerSet.shift(); // remove empty set
@@ -35,7 +35,7 @@ class HashSpace { // chaining hash table
           this.space.get(hash).push(item);
         }
       });
-    }
+    } else console.log('Incorrect schema!');
   }
 
   find(item) {
