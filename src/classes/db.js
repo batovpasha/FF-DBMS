@@ -1,3 +1,0 @@
-/*
-    Async parallel calculating of a hash
-*/
