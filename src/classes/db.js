@@ -8,36 +8,41 @@ class DataBase { // a class that implements the structure and logic of the datab
     this.collections = new Map();
   }
   // a method for creating a new collection in the database
-  createCollection(nameOfCollection, schemaOfCollection, keyOfCollection, option) {
-    this.collections.set(nameOfCollection, new Collection(schemaOfCollection, keyOfCollection, option));
+  createCollection(name, schema, keys, structType) {
+    const collection = new Collection(schema, keys, structType);
+    this.collections.set(name, collection);
   }
-
-  getCollection(nameOfCollection) { // method for accessing(getting) the collection by its name
-    return this.collections.get(nameOfCollection);
+  // method for accessing(getting) the collection by its name
+  getCollection(name) { 
+    return this.collections.get(name);
   }
-
-  deleteCollection(nameOfCollection) { //  method for deleting a collection by its name
-    this.collections.delete(nameOfCollection);
+  // method for deleting a collection by its name
+  deleteCollection(name) { 
+    this.collections.delete(name);
   }
-
-  getNamesOfCollections() { // a method for obtaining the names of all collections in the database
+  // a method for obtaining the names of all collections in the database
+  getNamesOfCollections() { 
     return Array.from(this.collections.keys());
   }
 }
 
 // let db = new DataBase('Users');
-//
-// db.createCollection('admins', ['name', 'surname', 'age'], ['name']);
-// db.createCollection('workers', ['name', 'surname', 'age'], ['name', 'surname']);
-//
+
+// db.createCollection('admins', ['name', 'surname', 'age'], ['name'], 1);
+// db.createCollection('workers', ['name', 'surname', 'age'], ['name', 'surname'], 1);
+
 // let currCollection = db.getCollection('admins');
-//
+
 // let item = {
 //   name: 'Peter',
 //   surname: 'Digger',
 //   age: 23
 // }
-//
-// currCollection.insertItem(item, 'password');
-//
+
+// currCollection.insert(item, 'password');
+
 // console.dir(db.getNamesOfCollections());
+
+module.exports = {
+  DataBase
+};
