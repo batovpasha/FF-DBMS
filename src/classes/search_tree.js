@@ -1,4 +1,6 @@
-const Item = require('./item.js').Item;
+'use strict';
+
+const ItemSchema = require('./item.js').ItemSchema;
 
 class Node {
   constructor(field, key, value) {
@@ -13,8 +15,9 @@ class Node {
 
 class SearchTree { // a class that describes the structure and implementation of the multi-level binary search tree
 
-  constructor(arrayOfFields) {
-    this.arrayOfFields = arrayOfFields;
+  constructor(itemSchema) {
+    this.itemSchema = itemSchema;
+    this.arrayOfFields = itemSchema.userFields;
     this.root = null;
   }
 
@@ -63,9 +66,10 @@ class SearchTree { // a class that describes the structure and implementation of
 
       let item = args[0];
 
-      if (!this.root) this.createRoot(item);
-      else this.insert(this.root, item);
-
+      if (this.itemSchema.validityCheck(item)) {
+        if (!this.root) this.createRoot(item);
+        else this.insert(this.root, item);
+      }
     }
   }
 
@@ -109,9 +113,11 @@ class SearchTree { // a class that describes the structure and implementation of
     }
 
     if (args.length == 1){
-      let result = [];
-      this.find(this.root, args[0], result);
-      return result;
+      if (this.itemSchema.validityCheck(args[0])) {
+        let result = [];
+        this.find(this.root, args[0], result);
+        return result;
+      }
     }
 
   }
@@ -120,27 +126,28 @@ class SearchTree { // a class that describes the structure and implementation of
 
 /* ---EXAMPLES--- */
 
-let obj1 = {
-  name: 'Homer',
-  surname: 'Simpson',
-  age: 29,
-  school: 32,
-  city: 'Kiev'
-};
 
-let obj2 = {
-  name: 'Pasha',
-  surname: 'Batov',
-  city: 'Lutsk'
-};
-
-
-let tree = new SearchTree(['name', 'surname', 'age', 'school', 'city']);
-
-
-tree.insert(obj1);
-tree.insert(obj2);
-
-let searchQuery = {name: 'Homer'};
-
-console.dir(tree.find(searchQuery));
+// let obj1 = {
+//   name: 'Homer',
+//   surname: 'Simpson',
+//   age: 29,
+//   school: 32,
+//   city: 'Kiev'
+// };
+//
+// let obj2 = {
+//   name: 'Pasha',
+//   surname: 'Batov',
+//   city: 'Lutsk'
+// };
+//
+//
+// let tree = new SearchTree(new ItemSchema(['name', 'surname', 'age', 'school', 'city']));
+//
+//
+// tree.insert(obj1);
+// tree.insert(obj2);
+//
+// let searchQuery = {name: 'Homer'};
+//
+// console.dir(tree.find(searchQuery));
