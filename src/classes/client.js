@@ -83,7 +83,7 @@ class Client { // a class that describes the structure and capabilities of the c
 /* ---EXAMPLES--- */
 
 // let cl = new Client('client', 'password');
-// cl.query('insert', {}, 'db', 'collection');
 // cl.query('createTable', 'db', 'collection', ['name', 'surname', 'age'], ['name'], 1);
+// cl.query('insert', {}, 'db', 'collection');
 // cl.query('dropTable', 'db', 'collection');
 // cl.query('createDatabase', 'db');

@@ -16,9 +16,9 @@ class Collection { // a class that describes the structure and behavior of the c
     this.numberOfItems = 0;
 
     if (typeOfStruct === 1)
-      this.searchStructure = new HashSpace(this.itemSchema);
-    if (typeOfStruct === 2) 
-      this.searchStructure = new SearchTree(this.itemSchema);
+      this.searchStructure = new HashSpace();
+    if (typeOfStruct === 2)
+      this.searchStructure = new SearchTree(this.itemSchema.userFields);
   }
 
   createHash(key, password) { // a function that generates a hash value for a given key
@@ -32,27 +32,25 @@ class Collection { // a class that describes the structure and behavior of the c
     if (this.itemSchema.validityCheck(item)) {
       const key = this.keySchema.reduce((acc, val) => acc += item[val], '');
       const hash = this.createHash(key, password);
-      
+
       this.hashTable.set(hash, new Item(hash, ++this.numberOfItems, item));
       this.searchStructure.insert(item);
-    }
+    } else console.log("Incorrect item schema!");
   }
 
   findOne(query, password) { // element by key search method
     if (this.itemSchema.validityCheck(query)) {
       const key = this.keySchema.reduce((acc, val) => acc += query[val], '');
       const hash = this.createHash(key, password);
-      
+
       return this.hashTable.get(hash).item;
     } else console.log("Incorrect item schema!");
   }
 
-  find(query) {
+  find(query) { // a method for finding elements in the structure by pattern
     if (this.itemSchema.validityCheck(query)) {
       return this.searchStructure.find(query);
-    } else {
-      console.log("Incorrect item schema!")
-    };
+    } else console.log("Incorrect item schema!");
   }
 
   updateItem(item, password) { // method of updating the value according to the given key
@@ -60,16 +58,16 @@ class Collection { // a class that describes the structure and behavior of the c
       let targetItem = this.findOne(item, password);
 
       Object.keys(item).forEach(key => targetItem[key] = item[key]);
-    }
+    } else console.log("Incorrect item schema!");
   }
 
   drop() { // method of cleaning the collection
     this.hashTable.clear();
 
-    if (this.typeOfStruct === 1) 
-      this.searchStructure = new HashSpace(this.itemSchema);
-    if (this.typeOfStruct === 2) 
-      this.searchStructure = new SearchTree(this.itemSchema);
+    if (this.typeOfStruct === 1)
+      this.searchStructure = new HashSpace();
+    if (this.typeOfStruct === 2)
+      this.searchStructure = new SearchTree(this.itemSchema.userFields);
   }
 };
 
