@@ -1,7 +1,5 @@
 'use strict';
 
-const ItemSchema = require('./item.js').ItemSchema;
-
 class Node {
   constructor(field, key, value) {
     this.field = field;
@@ -15,9 +13,8 @@ class Node {
 
 class SearchTree { // a class that describes the structure and implementation of the multi-level binary search tree
 
-  constructor(itemSchema) {
-    this.itemSchema = itemSchema;
-    this.arrayOfFields = itemSchema.userFields;
+  constructor(userFields) {
+    this.arrayOfFields = userFields
     this.root = null;
   }
 
@@ -66,10 +63,8 @@ class SearchTree { // a class that describes the structure and implementation of
 
       let item = args[0];
 
-      if (this.itemSchema.validityCheck(item)) {
-        if (!this.root) this.createRoot(item);
-        else this.insert(this.root, item);
-      }
+      if (!this.root) this.createRoot(item);
+      else this.insert(this.root, item);
     }
   }
 
@@ -113,11 +108,9 @@ class SearchTree { // a class that describes the structure and implementation of
     }
 
     if (args.length == 1){
-      if (this.itemSchema.validityCheck(args[0])) {
-        let result = [];
-        this.find(this.root, args[0], result);
-        return result;
-      }
+      let result = [];
+      this.find(this.root, args[0], result);
+      return result;
     }
 
   }
@@ -142,7 +135,7 @@ class SearchTree { // a class that describes the structure and implementation of
 // };
 //
 //
-// let tree = new SearchTree(new ItemSchema(['name', 'surname', 'age', 'school', 'city']));
+// let tree = new SearchTree(['name', 'surname', 'age', 'school', 'city']);
 //
 //
 // tree.insert(obj1);
@@ -151,3 +144,7 @@ class SearchTree { // a class that describes the structure and implementation of
 // let searchQuery = {name: 'Homer'};
 //
 // console.dir(tree.find(searchQuery));
+
+module.exports = {
+  SearchTree
+}

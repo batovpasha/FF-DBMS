@@ -8,8 +8,8 @@ class DataBase { // a class that implements the structure and logic of the datab
     this.collections = new Map();
   }
   // a method for creating a new collection in the database
-  createCollection(nameOfCollection, schemaOfCollection, keyOfCollection) { 
-    this.collections.set(nameOfCollection, new Collection(schemaOfCollection, keyOfCollection));
+  createCollection(nameOfCollection, schemaOfCollection, keyOfCollection, option) {
+    this.collections.set(nameOfCollection, new Collection(schemaOfCollection, keyOfCollection, option));
   }
 
   getCollection(nameOfCollection) { // method for accessing(getting) the collection by its name
