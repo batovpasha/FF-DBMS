@@ -28,7 +28,7 @@ class HashSpace { // chaining hash table
 
       itemValuesPowerSet.forEach(set => {
         const hash = this.createHash(set);
-        if (!this.space.get(hash)) {       // if space have not items by this hash
+        if (!this.space.has(hash)) {       // if space have not items by this hash
           this.space.set(hash, []);        // then create empty chain(array)
           this.space.get(hash).push(item); // then push current item
         } else {
@@ -41,7 +41,7 @@ class HashSpace { // chaining hash table
   find(item) {
     const hash = this.createHash(Object.values(item).sort()); // sort object values for correct order 
 
-    return this.space.get(hash) ? this.space.get(hash) : null; 
+    return this.space.has(hash) ? this.space.get(hash) : null; 
   }
 
   print() {
