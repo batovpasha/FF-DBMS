@@ -1,7 +1,7 @@
 class Client { // a class that describes the structure and capabilities of the client
-  constructor(name, password){
-    this._login = '';
-    this._password = '';
+  constructor(login, password) {
+    this._login = login;
+    this._password = password;
     this.dbms = null;
   }
 
@@ -38,7 +38,7 @@ class Client { // a class that describes the structure and capabilities of the c
       let valid = args.reduce(reducer, true);
       let typeOfQuery = args.shift();
 
-      if (valid && typeOfQuery === 'createTable') {
+      if (valid && typeOfQuery === 'createСollection') {
         return this.dbms[typeOfQuery](...args, this._login, this._password);
       }
     }
@@ -61,7 +61,7 @@ class Client { // a class that describes the structure and capabilities of the c
       let valid = args.reduce(reducer, true);
       let typeOfQuery = args.shift();
 
-      if (valid && typeOfQuery === 'dropTable') {
+      if (valid && typeOfQuery === 'dropCollection') {
         return this.dbms[typeOfQuery](...args, this._login, this._password);
       }
     }

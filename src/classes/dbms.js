@@ -49,8 +49,33 @@ class DBMS {
         return;
       }
       
-      if (!this.identificationData.get(login).databases.has(name)) {
+      else if (!this.identificationData.get(login).databases.has(name)) {
         console.log(`This client has not ${name} database`);
+        return;
+      }
+    }
+    
+    else if (this.identificationData.has(login) && 
+             this.identificationData.get(login).password !== password) {
+      console.log('Incorrect password!');
+      return;
+    }
+
+    else return;    
+  }
+
+  createCollection(database, collection, schema, keys, structType, login, password) {
+    if (this.identificationData.has(login) && 
+        this.identificationData.get(login).password === password) {
+      
+      if (this.identificationData.get(login).databases.has(database)) {
+        let db = this.identificationData.get(login).databases.get(database);
+        db.createCollection(collection, schema, keys, structType);
+        return;
+      }
+
+      else if (!this.identificationData.get(login).databases.has(database)) {
+        console.log(`This client has not ${databaseName} database`);
         return;
       }
     }
@@ -75,16 +100,9 @@ class DBMS {
   }
 };
 
-// let dbms = new DBMS();
+let dbms = new DBMS();
 
-// dbms.connect('Pasha', '12345');
-// dbms.createDatabase('users', 'Pasha', '12345');
-// dbms.createDatabase('dsdas', 'Pasha', '12345');
-// dbms.print();
-
-
-// dbms.dropDatabase('users', 'Pasha', '12345')
-// dbms.print();
-
-// dbms.dropDatabase('dsdas', 'Pasha', '12345');
-// dbms.print();
+dbms.connect('Pasha', '12345');
+dbms.createDatabase('users', 'Pasha', '12345');
+dbms.print();
+dbms.createCollection('users', 'sd', ['name', 'surname', 'age'], ['name', 'surname'], 1, 'Pasha', '12345');
