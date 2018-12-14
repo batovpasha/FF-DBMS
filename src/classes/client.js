@@ -1,5 +1,5 @@
 class Client { // a class that describes the structure and capabilities of the client
-  constructor(login, password) {
+  constructor(login, password){
     this._login = login;
     this._password = password;
     this.dbms = null;
@@ -38,7 +38,7 @@ class Client { // a class that describes the structure and capabilities of the c
       let valid = args.reduce(reducer, true);
       let typeOfQuery = args.shift();
 
-      if (valid && typeOfQuery === 'createСollection') {
+      if (valid && typeOfQuery === 'createCollection') {
         return this.dbms[typeOfQuery](...args, this._login, this._password);
       }
     }
@@ -50,7 +50,7 @@ class Client { // a class that describes the structure and capabilities of the c
       let valid = args.reduce(reducer, true);
       let typeOfQuery = args.shift();
 
-      if (valid && /^find$|^insert$|^update$|^findOne$/.test(typeOfQuery)) {
+      if (valid && /^find$|^insert$|^update$|^findOne$|^remove$/.test(typeOfQuery)) {
         return this.dbms[typeOfQuery](...args, this._login, this._password);
       }
     }
@@ -72,10 +72,19 @@ class Client { // a class that describes the structure and capabilities of the c
       let valid = args.reduce(reducer, true);
       let typeOfQuery = args.shift();
 
-      if (valid && /^createDatabase$|^dropDatabase$/.test(typeOfQuery)) {
+      if (valid && /^createDatabase$|^dropDatabase$|^showCollections$/.test(typeOfQuery)) {
         return this.dbms[typeOfQuery](...args, this._login, this._password);
       }
     }
+
+    if (args.length === 1) { // arguments: type of query
+      let typeOfQuery = args.shift();
+
+      if (typeOfQuery === 'showDatabases') {
+        return this.dbms[typeOfQuery](this._login, this._password);
+      }
+    }
+
     console.log('Invalid syntax of query!');
   }
 }
@@ -83,7 +92,12 @@ class Client { // a class that describes the structure and capabilities of the c
 /* ---EXAMPLES--- */
 
 // let cl = new Client('client', 'password');
-// cl.query('createTable', 'db', 'collection', ['name', 'surname', 'age'], ['name'], 1);
+// cl.query('createCollection', 'db', 'collection', ['name', 'surname', 'age'], ['name'], 1);
 // cl.query('insert', {}, 'db', 'collection');
 // cl.query('dropTable', 'db', 'collection');
-// cl.query('createDatabase', 'db');
+// cl.query('showCollections', 'db');
+// cl.query('showDatabases');
+
+module.exports = {
+  Client
+}

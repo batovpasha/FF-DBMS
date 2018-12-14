@@ -115,35 +115,109 @@ class SearchTree { // a class that describes the structure and implementation of
 
   }
 
+  minimum(current) { // a method for finding a minimal element in the subtree
+    return curr.left === null ? current : minimum(current.left);
+  }
+
+  deleteNode (currNode, key) { // a method for removing an item from the subtree
+    if (currNode.left != null && currNode.right != null) {
+      let min = minimum(currNode.right);
+      currNode.key = min.key;
+      currNode.field = min.field;
+      currNode.value = min.value;
+      currNode.right = delete(currNode.right, currNode.key);
+    } else {
+      if (currNode.left != null) currNode = currNode.left;
+      else currNode = currNode.right;
+    }
+    return currNode;
+  }
+
+  remove(...args) { // a method for removing items from a tree by pattern
+    if (args.length === 2){
+      let node = args[0];
+      let item = Object.assign({}, args[1]);;
+      let field = node.field;
+
+      if (field in item) {
+
+        if (item[field] == node.key) {
+          delete item[field];
+          if (Object.keys(item).length === 0){
+            node = this.deleteNode(node, node[field]);
+          } else if (node.alternativeTree){
+            let newAltTree = this.remove(node.alternativeTree, item);
+            if (newAltTree) node.value = newAltTree.value;
+            node.alternativeTree = newAltTree;
+          }
+        }
+
+        else if (item[field] > node.key && node.right) {
+          node.right = this.remove(node.right, item);
+        }
+
+        else if (item[field] < node.key && node.left) {
+          node.right = this.remove(node.left, item);
+        }
+      } else {
+
+        let res = true;
+        for (let i in item) res = res && item[i] === node.value[i];
+        if (res) {
+          if (node.alternativeTree) node.alternativeTree = this.remove(node.alternativeTree, item);
+          node = this.deleteNode(node, node[field]);
+        }
+
+        if(node){
+          if (node.alternativeTree) node.alternativeTree = this.remove(node.alternativeTree, item);
+          if (node.right) node.right = this.remove(node.right, item);
+          if (node.left) node.left = this.remove(node.left, item);
+        }
+
+      }
+      return node;
+    }
+
+    if (args.length === 1){
+      this.root = this.remove(this.root, args[0])
+    }
+  }
 };
 
 /* ---EXAMPLES--- */
 
 
-// let obj1 = {
-//   name: 'Homer',
-//   surname: 'Simpson',
-//   age: 29,
-//   school: 32,
-//   city: 'Kiev'
-// };
-//
-// let obj2 = {
-//   name: 'Pasha',
-//   surname: 'Batov',
-//   city: 'Lutsk'
-// };
-//
-//
-// let tree = new SearchTree(['name', 'surname', 'age', 'school', 'city']);
+let obj1 = {
+  name: 'Homer',
+  surname: 'Simpson',
+  city: 'Kiev'
+};
+
+let obj2 = {
+  name: 'Pasha',
+  surname: 'Batov',
+  city: 'Lutsk'
+};
+
+let obj3 = {
+  name: 'Pasha',
+  surname: 'Zubach',
+  city: 'Lutsk'
+};
+
+
+// let tree = new SearchTree(['name', 'surname', 'city']);
 //
 //
 // tree.insert(obj1);
 // tree.insert(obj2);
+// tree.insert(obj3);
 //
-// let searchQuery = {name: 'Homer'};
+// let searchQuery = {name: 'Pasha', surname: 'Zubach'};
 //
-// console.dir(tree.find(searchQuery));
+// console.dir(tree.remove(searchQuery));
+//
+// console.dir(JSON.stringify(tree));
 
 module.exports = {
   SearchTree
