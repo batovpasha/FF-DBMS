@@ -1,32 +1,33 @@
+'use strict';
+
 class Client { // a class that describes the structure and capabilities of the client
-  constructor(login, password){
+  constructor(login, password) {
     this._login = login;
     this._password = password;
     this.dbms = null;
   }
 
-  set login(login){
+  set login(login) {
     this._login = login;
   }
 
-  get login(){
+  get login() {
     return this._login;
   }
 
-  set password(password){
+  set password(password) {
     this._password = password;
   }
 
-  get password(){
+  get password() {
     return this._password;
   }
 
-  connect(dbms){ // method for connecting to database
+  connect(dbms) { // method for connecting to database
     this.dbms = dbms.connect(this._login, this._password);
   }
 
-  query(...args){ // method for handling various types of requests to the database
-
+  query(...args) { // method for handling various types of requests to the database
     if (args.length === 6) { /* arguments: type of query, name of database,
       name of collection, item schema(array), key schema(array), type of struct(number) */
       const reducer = (acc, cur, ind) => {

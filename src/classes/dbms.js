@@ -33,45 +33,45 @@ class DBMS {
     }
   }
 
-  createDatabase(name, login, password) {
+  createDatabase(name, login) { //
     const database = new DataBase(name);
     this.identificationData.get(login).databases.set(name, database);
   }
 
-  dropDatabase(name, login, password) {
+  dropDatabase(name, login) { //
     if (this.hasDatabase(name, login)) {
       this.identificationData.get(login).databases.delete(name);
     }
   }
 
-  createCollection(database, collection, schema, keys, structType, login, password) {
+  createCollection(database, collection, schema, keys, structType, login) { //
     if (this.hasDatabase(database, login)) {
       const db = this.identificationData.get(login).databases.get(database);
       db.createCollection(collection, schema, keys, structType);
     }
   }
 
-  dropCollection(database, collection, login, password) {  
+  dropCollection(database, collection, login) { //  
     if (this.hasDatabase(database, login)) {
       const db = this.identificationData.get(login).databases.get(database);
       db.dropCollection(collection);
     }
   }
 
-  showDatabases(login, password) {
+  showDatabases(login) { //
     // get list with all database names
     const list = [...this.identificationData.get(login).databases.keys()]; 
     console.log(list);   
   }
 
-  showCollections(database, login, password) {
+  showCollections(database, login) { //
     if (this.hasDatabase(database, login)) {
       const db = this.identificationData.get(login).databases.get(database);
       console.log(db.getNamesOfCollections());
     }        
   }
 
-  find(query, database, collection, login, password) {
+  find(query, database, collection, login) { //
     if (this.hasDatabase(database, login)) {
       const db = this.identificationData.get(login).databases.get(database);
       return db.getCollection(collection).find(query);
@@ -79,23 +79,30 @@ class DBMS {
   }
 
   insert(query, database, collection, login, password) {
-    if (this.identificationData.get(login).databases.has(database)) {
+    if (this.hasDatabase(database, login)) {
       const db = this.identificationData.get(login).databases.get(database);
       return db.getCollection(collection).insert(query, password);
     }
   }
 
   updateItem(query, database, collection, login, password) {
-    if (this.identificationData.get(login).databases.has(database)) {
+    if (this.hasDatabase(database, login)) {
       const db = this.identificationData.get(login).databases.get(database);
       return db.getCollection(collection).updateItem(query, password);
     }
   }
 
   findOne(query, database, collection, login, password) {
-    if (this.identificationData.get(login).databases.has(database)) {
+    if (this.hasDatabase(database, login)) {
       const db = this.identificationData.get(login).databases.get(database);
       return db.getCollection(collection).findOne(query, password);
+    }
+  }
+
+  printCollection(database, collection, login) {
+    if (this.hasDatabase(database, login)) {
+      const db = this.identificationData.get(login).databases.get(database);
+      db.getCollection(collection).print();
     }
   }
 
@@ -137,6 +144,7 @@ module.exports = {
 
 // console.log(dbms.find({ name: 'Simpson'}, 'users1', 'sd1', 'Pasha', '12345'));
 
-// dbms.dropDatabase('users1', 'Pasha', '12345');
-// dbms.showDatabases('Pasha', '12345');
+// // dbms.dropDatabase('users1', 'Pasha', '12345');
+// // dbms.showDatabases('Pasha', '12345');
 
+// dbms.printCollection('users1', 'sd1', 'Pasha');

@@ -133,6 +133,10 @@ class SearchTree { // a class that describes the structure and implementation of
     return currNode;
   }
 
+  print() {
+    console.log(this.find({}));
+  }
+
   remove(...args) { // a method for removing items from a tree by pattern
     if (args.length === 2){
       let node = args[0];

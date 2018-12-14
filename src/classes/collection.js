@@ -61,6 +61,10 @@ class Collection { // a class that describes the structure and behavior of the c
     } else console.log("Incorrect item schema!");
   }
 
+  print() {
+    this.searchStructure.print();
+  }
+
   drop() { // method of cleaning the collection
     this.hashTable.clear();
 
