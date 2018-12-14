@@ -65,7 +65,7 @@ class DBMS {
         this.identificationData.get(login).password === password) {
       
       if (this.identificationData.get(login).databases.has(database)) {
-        let db = this.identificationData.get(login).databases.get(database);
+        const db = this.identificationData.get(login).databases.get(database);
         db.createCollection(collection, schema, keys, structType);
         return;
       }
@@ -88,7 +88,7 @@ class DBMS {
         this.identificationData.get(login).password === password) {
       
       if (this.identificationData.get(login).databases.has(database)) {
-        let db = this.identificationData.get(login).databases.get(database);
+        const db = this.identificationData.get(login).databases.get(database);
         db.dropCollection(collection);
         return;
       }
@@ -128,7 +128,7 @@ class DBMS {
         this.identificationData.get(login).password === password) {
 
       if (this.identificationData.get(login).databases.has(database)) {
-        let db = this.identificationData.get(login).databases.get(database);
+        const db = this.identificationData.get(login).databases.get(database);
         console.log(db.getNamesOfCollections());
         return;
       }
@@ -147,10 +147,88 @@ class DBMS {
     }    
   }
 
-  find(query, database, collection, login, password) { // database and table names
-    if (this.identificationData.get(login) === password) {
-    
+  find(query, database, collection, login, password) {
+    if (this.identificationData.has(login) && 
+        this.identificationData.get(login).password === password) {
+      
+      if (this.identificationData.get(login).databases.has(database)) {
+        const db = this.identificationData.get(login).databases.get(database);
+        return db.getCollection(collection).find(query);
+      }
+
+      else if (!this.identificationData.get(login).databases.has(database)) {
+        console.log(`This client has not ${database} database`);
+      }
     }
+    
+    else if (this.identificationData.has(login) &&
+             this.identificationData.get(login).password !== password) {
+      console.log('Incorrect password!');
+      return null;
+    }     
+  }
+
+  insert(query, database, collection, login, password) {
+    if (this.identificationData.has(login) && 
+        this.identificationData.get(login).password === password) {
+      
+      if (this.identificationData.get(login).databases.has(database)) {
+        const db = this.identificationData.get(login).databases.get(database);
+        return db.getCollection(collection).insert(query, password);
+      }
+
+      else if (!this.identificationData.get(login).databases.has(database)) {
+        console.log(`This client has not ${database} database`);
+      }
+    }
+    
+    else if (this.identificationData.has(login) &&
+             this.identificationData.get(login).password !== password) {
+      console.log('Incorrect password!');
+      return null;
+    }     
+  }
+
+  updateItem(query, database, collection, login, password) {
+    if (this.identificationData.has(login) && 
+        this.identificationData.get(login).password === password) {
+      
+      if (this.identificationData.get(login).databases.has(database)) {
+        const db = this.identificationData.get(login).databases.get(database);
+        return db.getCollection(collection).updateItem(query, password);
+      }
+
+      else if (!this.identificationData.get(login).databases.has(database)) {
+        console.log(`This client has not ${database} database`);
+      }
+    }
+    
+    else if (this.identificationData.has(login) &&
+             this.identificationData.get(login).password !== password) {
+      console.log('Incorrect password!');
+      return null;
+    }     
+  }
+
+  findOne(query, database, collection, login, password) {
+    if (this.identificationData.has(login) && 
+        this.identificationData.get(login).password === password) {
+      
+      if (this.identificationData.get(login).databases.has(database)) {
+        const db = this.identificationData.get(login).databases.get(database);
+        return db.getCollection(collection).findOne(query, password);
+      }
+
+      else if (!this.identificationData.get(login).databases.has(database)) {
+        console.log(`This client has not ${database} database`);
+      }
+    }
+    
+    else if (this.identificationData.has(login) &&
+             this.identificationData.get(login).password !== password) {
+      console.log('Incorrect password!');
+      return null;
+    }     
   }
 
   print() {
@@ -158,11 +236,12 @@ class DBMS {
   }
 };
 
-let dbms = new DBMS();
+const dbms = new DBMS();
 
 module.exports = {
   dbms
 };
+
 // dbms.connect('Pasha', '12345');
 
 // dbms.createDatabase('users1', 'Pasha', '12345');
@@ -180,3 +259,12 @@ module.exports = {
 // dbms.print();
 // dbms.showDatabases('Pasha', '12345');
 // dbms.showCollections('users1', 'Pasha', '12345');
+
+// dbms.insert({ name: 'Pavel', surname: 'Batov' }, 'users1', 'sd1', 'Pasha', '12345');
+// dbms.insert({ name: 'Homer1', surname: 'Simpson' }, 'users1', 'sd1', 'Pasha', '12345');
+// dbms.insert({ name: 'Homer1', surname: 'Simpson' }, 'users1', 'sd1', 'Pasha', '12345');
+// dbms.insert({ name: 'Homer2', surname: 'Simpson' }, 'users1', 'sd1', 'Pasha', '12345');
+// dbms.insert({ name: 'Homer3', surname: 'Simpson' }, 'users1', 'sd1', 'Pasha', '12345');
+// dbms.insert({ name: 'Homer4', surname: 'Simpson' }, 'users1', 'sd1', 'Pasha', '12345');
+
+// console.log(dbms.find({ name: 'Simpson'}, 'users1', 'sd1', 'Pasha', '12345'));
