@@ -36,8 +36,6 @@ class DBMS {
       console.log('Incorrect password!');
       return;
     }
-
-    else return;
   }
 
   dropDatabase(name, login, password) {
@@ -59,9 +57,7 @@ class DBMS {
              this.identificationData.get(login).password !== password) {
       console.log('Incorrect password!');
       return;
-    }
-
-    else return;    
+    }  
   }
 
   createCollection(database, collection, schema, keys, structType, login, password) {
@@ -75,7 +71,7 @@ class DBMS {
       }
 
       else if (!this.identificationData.get(login).databases.has(database)) {
-        console.log(`This client has not ${databaseName} database`);
+        console.log(`This client has not ${database} database`);
         return;
       }
     }
@@ -84,9 +80,71 @@ class DBMS {
              this.identificationData.get(login).password !== password) {
       console.log('Incorrect password!');
       return;
-    }
+    }   
+  }
 
-    else return;    
+  dropCollection(database, collection, login, password) {
+    if (this.identificationData.has(login) && 
+        this.identificationData.get(login).password === password) {
+      
+      if (this.identificationData.get(login).databases.has(database)) {
+        let db = this.identificationData.get(login).databases.get(database);
+        db.dropCollection(collection);
+        return;
+      }
+
+      else if (!this.identificationData.get(login).databases.has(database)) {
+        console.log(`This client has not ${database} database`);
+        return;
+      }
+
+    }
+    
+    else if (this.identificationData.has(login) && 
+             this.identificationData.get(login).password !== password) {
+      console.log('Incorrect password!');
+      return;
+    }    
+  }
+
+  showDatabases(login, password) {
+    if (this.identificationData.has(login) && 
+        this.identificationData.get(login).password === password) {
+      // get list with all database names
+      const list = [...this.identificationData.get(login).databases.keys()]; 
+      console.log(list);
+      return;
+    }
+    
+    else if (this.identificationData.has(login) && 
+             this.identificationData.get(login).password !== password) {
+      console.log('Incorrect password!');
+      return;
+    }
+  }
+
+  showCollections(database, login, password) {
+    if (this.identificationData.has(login) && 
+        this.identificationData.get(login).password === password) {
+
+      if (this.identificationData.get(login).databases.has(database)) {
+        let db = this.identificationData.get(login).databases.get(database);
+        console.log(db.getNamesOfCollections());
+        return;
+      }
+
+      else if (!this.identificationData.get(login).databases.has(database)) {
+        console.log(`This client has not ${database} database`);
+        return;
+      }
+    
+    }
+    
+    else if (this.identificationData.has(login) && 
+             this.identificationData.get(login).password !== password) {
+      console.log('Incorrect password!');
+      return;
+    }    
   }
 
   find(query, database, collection, login, password) { // database and table names
@@ -102,7 +160,23 @@ class DBMS {
 
 let dbms = new DBMS();
 
-dbms.connect('Pasha', '12345');
-dbms.createDatabase('users', 'Pasha', '12345');
-dbms.print();
-dbms.createCollection('users', 'sd', ['name', 'surname', 'age'], ['name', 'surname'], 1, 'Pasha', '12345');
+module.exports = {
+  dbms
+};
+// dbms.connect('Pasha', '12345');
+
+// dbms.createDatabase('users1', 'Pasha', '12345');
+// dbms.createDatabase('users2', 'Pasha', '12345');
+// dbms.createDatabase('users3', 'Pasha', '12345');
+// dbms.createDatabase('users4', 'Pasha', '12345');
+// dbms.createDatabase('users5', 'Pasha', '12345');
+
+// dbms.createCollection('users1', 'sd1', ['name', 'surname', 'age'], ['name', 'surname'], 2, 'Pasha', '12345');
+// dbms.createCollection('users1', 'sd2', ['name', 'surname', 'age'], ['name', 'surname'], 2, 'Pasha', '12345');
+// dbms.createCollection('users1', 'sd3', ['name', 'surname', 'age'], ['name', 'surname'], 2, 'Pasha', '12345');
+// dbms.createCollection('users1', 'sd4', ['name', 'surname', 'age'], ['name', 'surname'], 2, 'Pasha', '12345');
+
+
+// dbms.print();
+// dbms.showDatabases('Pasha', '12345');
+// dbms.showCollections('users1', 'Pasha', '12345');

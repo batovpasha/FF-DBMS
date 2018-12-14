@@ -17,7 +17,7 @@ class DataBase { // a class that implements the structure and logic of the datab
     return this.collections.get(name);
   }
   // method for deleting a collection by its name
-  deleteCollection(name) { 
+  dropCollection(name) { 
     this.collections.delete(name);
   }
   // a method for obtaining the names of all collections in the database
