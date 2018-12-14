@@ -24,211 +24,79 @@ class DBMS {
     }
   }
 
+  hasDatabase(database, login) {
+    if (this.identificationData.get(login).databases.has(database)) {
+      return true;
+    } else {
+      console.log(`This client has not ${database} database`);
+      return false;
+    }
+  }
+
   createDatabase(name, login, password) {
-    if (this.identificationData.has(login) && 
-        this.identificationData.get(login).password === password) {
-      const database = new DataBase(name);
-      this.identificationData.get(login).databases.set(name, database);
-    }
-    
-    else if (this.identificationData.has(login) && 
-             this.identificationData.get(login).password !== password) {
-      console.log('Incorrect password!');
-      return;
-    }
+    const database = new DataBase(name);
+    this.identificationData.get(login).databases.set(name, database);
   }
 
   dropDatabase(name, login, password) {
-    if (this.identificationData.has(login) && 
-        this.identificationData.get(login).password === password) {
-      
-      if (this.identificationData.get(login).databases.has(name)) {
-        this.identificationData.get(login).databases.delete(name);
-        return;
-      }
-      
-      else if (!this.identificationData.get(login).databases.has(name)) {
-        console.log(`This client has not ${name} database`);
-        return;
-      }
+    if (this.hasDatabase(name, login)) {
+      this.identificationData.get(login).databases.delete(name);
     }
-    
-    else if (this.identificationData.has(login) && 
-             this.identificationData.get(login).password !== password) {
-      console.log('Incorrect password!');
-      return;
-    }  
   }
 
   createCollection(database, collection, schema, keys, structType, login, password) {
-    if (this.identificationData.has(login) && 
-        this.identificationData.get(login).password === password) {
-      
-      if (this.identificationData.get(login).databases.has(database)) {
-        const db = this.identificationData.get(login).databases.get(database);
-        db.createCollection(collection, schema, keys, structType);
-        return;
-      }
-
-      else if (!this.identificationData.get(login).databases.has(database)) {
-        console.log(`This client has not ${database} database`);
-        return;
-      }
+    if (this.hasDatabase(database, login)) {
+      const db = this.identificationData.get(login).databases.get(database);
+      db.createCollection(collection, schema, keys, structType);
     }
-    
-    else if (this.identificationData.has(login) && 
-             this.identificationData.get(login).password !== password) {
-      console.log('Incorrect password!');
-      return;
-    }   
   }
 
-  dropCollection(database, collection, login, password) {
-    if (this.identificationData.has(login) && 
-        this.identificationData.get(login).password === password) {
-      
-      if (this.identificationData.get(login).databases.has(database)) {
-        const db = this.identificationData.get(login).databases.get(database);
-        db.dropCollection(collection);
-        return;
-      }
-
-      else if (!this.identificationData.get(login).databases.has(database)) {
-        console.log(`This client has not ${database} database`);
-        return;
-      }
-
+  dropCollection(database, collection, login, password) {  
+    if (this.hasDatabase(database, login)) {
+      const db = this.identificationData.get(login).databases.get(database);
+      db.dropCollection(collection);
     }
-    
-    else if (this.identificationData.has(login) && 
-             this.identificationData.get(login).password !== password) {
-      console.log('Incorrect password!');
-      return;
-    }    
   }
 
   showDatabases(login, password) {
-    if (this.identificationData.has(login) && 
-        this.identificationData.get(login).password === password) {
-      // get list with all database names
-      const list = [...this.identificationData.get(login).databases.keys()]; 
-      console.log(list);
-      return;
-    }
-    
-    else if (this.identificationData.has(login) && 
-             this.identificationData.get(login).password !== password) {
-      console.log('Incorrect password!');
-      return;
-    }
+    // get list with all database names
+    const list = [...this.identificationData.get(login).databases.keys()]; 
+    console.log(list);   
   }
 
   showCollections(database, login, password) {
-    if (this.identificationData.has(login) && 
-        this.identificationData.get(login).password === password) {
-
-      if (this.identificationData.get(login).databases.has(database)) {
-        const db = this.identificationData.get(login).databases.get(database);
-        console.log(db.getNamesOfCollections());
-        return;
-      }
-
-      else if (!this.identificationData.get(login).databases.has(database)) {
-        console.log(`This client has not ${database} database`);
-        return;
-      }
-    
-    }
-    
-    else if (this.identificationData.has(login) && 
-             this.identificationData.get(login).password !== password) {
-      console.log('Incorrect password!');
-      return;
-    }    
+    if (this.hasDatabase(database, login)) {
+      const db = this.identificationData.get(login).databases.get(database);
+      console.log(db.getNamesOfCollections());
+    }        
   }
 
   find(query, database, collection, login, password) {
-    if (this.identificationData.has(login) && 
-        this.identificationData.get(login).password === password) {
-      
-      if (this.identificationData.get(login).databases.has(database)) {
-        const db = this.identificationData.get(login).databases.get(database);
-        return db.getCollection(collection).find(query);
-      }
-
-      else if (!this.identificationData.get(login).databases.has(database)) {
-        console.log(`This client has not ${database} database`);
-      }
+    if (this.hasDatabase(database, login)) {
+      const db = this.identificationData.get(login).databases.get(database);
+      return db.getCollection(collection).find(query);
     }
-    
-    else if (this.identificationData.has(login) &&
-             this.identificationData.get(login).password !== password) {
-      console.log('Incorrect password!');
-      return null;
-    }     
   }
 
   insert(query, database, collection, login, password) {
-    if (this.identificationData.has(login) && 
-        this.identificationData.get(login).password === password) {
-      
-      if (this.identificationData.get(login).databases.has(database)) {
-        const db = this.identificationData.get(login).databases.get(database);
-        return db.getCollection(collection).insert(query, password);
-      }
-
-      else if (!this.identificationData.get(login).databases.has(database)) {
-        console.log(`This client has not ${database} database`);
-      }
+    if (this.identificationData.get(login).databases.has(database)) {
+      const db = this.identificationData.get(login).databases.get(database);
+      return db.getCollection(collection).insert(query, password);
     }
-    
-    else if (this.identificationData.has(login) &&
-             this.identificationData.get(login).password !== password) {
-      console.log('Incorrect password!');
-      return null;
-    }     
   }
 
   updateItem(query, database, collection, login, password) {
-    if (this.identificationData.has(login) && 
-        this.identificationData.get(login).password === password) {
-      
-      if (this.identificationData.get(login).databases.has(database)) {
-        const db = this.identificationData.get(login).databases.get(database);
-        return db.getCollection(collection).updateItem(query, password);
-      }
-
-      else if (!this.identificationData.get(login).databases.has(database)) {
-        console.log(`This client has not ${database} database`);
-      }
+    if (this.identificationData.get(login).databases.has(database)) {
+      const db = this.identificationData.get(login).databases.get(database);
+      return db.getCollection(collection).updateItem(query, password);
     }
-    
-    else if (this.identificationData.has(login) &&
-             this.identificationData.get(login).password !== password) {
-      console.log('Incorrect password!');
-      return null;
-    }     
   }
 
   findOne(query, database, collection, login, password) {
-    if (this.identificationData.has(login) && 
-        this.identificationData.get(login).password === password) {
-      
-      if (this.identificationData.get(login).databases.has(database)) {
-        const db = this.identificationData.get(login).databases.get(database);
-        return db.getCollection(collection).findOne(query, password);
-      }
-
-      else if (!this.identificationData.get(login).databases.has(database)) {
-        console.log(`This client has not ${database} database`);
-      }
+    if (this.identificationData.get(login).databases.has(database)) {
+      const db = this.identificationData.get(login).databases.get(database);
+      return db.getCollection(collection).findOne(query, password);
     }
-    
-    else if (this.identificationData.has(login) &&
-             this.identificationData.get(login).password !== password) {
-      console.log('Incorrect password!');
-      return null;
-    }     
   }
 
   print() {
@@ -268,3 +136,7 @@ module.exports = {
 // dbms.insert({ name: 'Homer4', surname: 'Simpson' }, 'users1', 'sd1', 'Pasha', '12345');
 
 // console.log(dbms.find({ name: 'Simpson'}, 'users1', 'sd1', 'Pasha', '12345'));
+
+// dbms.dropDatabase('users1', 'Pasha', '12345');
+// dbms.showDatabases('Pasha', '12345');
+

@@ -3,24 +3,23 @@ const DBMS = require('./dbms.js').dbms;
 const readline = require('readline');
 
 const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
+  input: process.stdin,
+  output: process.stdout
 });
-
 
 function login() {
   return new Promise((resolve, reject) => {
-        rl.question('Login: ', (input) =>{
-          let result = {login: input};
-          rl.question('Password: ', (input) => {
-            result['password'] = input;
-            resolve(result);
-          })
-        });
+    rl.question('Login: ', (input) => {
+      let result = { login: input };
+      rl.question('Password: ', (input) => {
+        result['password'] = input;
+        resolve(result);
+      });
     });
+  });
 }
 
-function help(){
+function help() {
   console.log('\n<<Instruction for FF-DBMS>>');
   let manual = 'Options: \n' +
   'exit - to exit from dbms; \n' +
@@ -63,13 +62,13 @@ function help(){
   console.log(manual);
 }
 
-function parseQuery(input){
+function parseQuery(input) {
   let arr = /\[.*\]/g;
   input = '[' + input + ']';
   return JSON.parse(input);
 }
 
-function commandsHandling(client){
+function commandsHandling(client) {
   rl.question('=> ', (input) => {
 
     if (input === '-help') {
@@ -105,7 +104,7 @@ function client(resultOfSigning) {
 //   rl.close();
 // })
 
-function start(){
+function start() {
   process.stdout.write('\u001B[2J\u001B[0;0f');
   let greetings = '<<FOR FUN DATABASE MANAGMENT SYSTEM>>' + '\n' +
   'Welcome!' + '\n' + 'Sign in to continue';
