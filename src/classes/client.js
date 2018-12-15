@@ -81,7 +81,8 @@ class Client { // a class that describes the structure and capabilities of the c
       let valid = args.reduce(reducer, true);
       let typeOfQuery = args.shift();
 
-      if (valid && typeOfQuery === 'dropCollection') {
+      if (valid && (typeOfQuery === 'dropCollection' || 
+                    typeOfQuery === 'printCollection')) {
         return this.dbms[typeOfQuery](...args, this._login, this._password);
       }
     }

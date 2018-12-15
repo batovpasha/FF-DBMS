@@ -18,7 +18,7 @@ class DBMS {
       this.identificationData = new Map();
     }
   }
-  
+
   connect(login, password) {
     if (this.identificationData.has(login) &&
         this.identificationData.get(login).password === password)
@@ -131,6 +131,13 @@ class DBMS {
       });
     });
     return JSON.stringify(copy);
+  }
+
+  remove(query, database, collection, login) {
+    if (this.hasDatabase(database, login)) {
+      const db = this.identificationData.get(login).databases.get(database);
+      db.getCollection(collection).remove(query);
+    }
   }
 
   exit() {

@@ -69,6 +69,10 @@ class Collection { // a class that describes the structure and behavior of the c
     return copy;
   }
 
+  remove(item) {
+    this.searchStructure.remove(item);
+  }
+
   print() {
     this.searchStructure.print();
   }

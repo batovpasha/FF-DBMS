@@ -47,6 +47,9 @@ const help= () => {
                  'showCollections - to show all collections in database \n' +
                  'example: "showCollections", "name_of_db" \n\n' +
 
+                 'printCollection - to print all items in current collection \n' +
+                 'example: "printCollection", "name_of_db", "name_of_collection" \n\n' +  
+
                  'insert - to insert item into collection\n' +
                  'example: "insert", {"field1": "value1", "field2": "value2"}, "name_of_db", "name_of_collection" \n\n' +
 

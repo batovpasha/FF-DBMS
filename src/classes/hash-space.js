@@ -12,7 +12,7 @@ class HashSpace { // chaining hash table
 
   getPowerSet(item) { // get all subsets of item values set
     return Object.values(item).reduce((subsets, value) => {
-      subsets.concat(subsets.map(set => [...set, value]))
+      return subsets.concat(subsets.map(set => [...set, value]));
     }, [[]]);
   }
 
@@ -33,7 +33,7 @@ class HashSpace { // chaining hash table
     });
   }
 
-  delete(item) {
+  remove(item) {
     const hash = this.createHash(Object.values(item).sort());
     if (this.space.has(hash)) {
       this.space.delete(hash);
