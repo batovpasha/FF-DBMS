@@ -61,6 +61,14 @@ class Collection { // a class that describes the structure and behavior of the c
     } else console.log("Incorrect item schema!");
   }
 
+  createCopy(){
+    let copy = Object.assign({}, this);
+    copy.hashTable = new Object();
+    this.hashTable.forEach((value, key) => copy.hashTable[key] = value);
+    delete copy.searchStructure;
+    return copy;
+  }
+
   print() {
     this.searchStructure.print();
   }

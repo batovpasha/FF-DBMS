@@ -75,13 +75,14 @@ const commandsHandling = (client) => {
 
     if (input === 'exit') {
       rl.close();
+      DBMS.exit();
       console.log('Good luck!');
       return;
     }
 
     else if (input === 'change client') {
       return start();
-    } 
+    }
 
     else {
       client.query(...parseQuery(input));
@@ -92,10 +93,10 @@ const commandsHandling = (client) => {
 
 const client = (resultOfSigning) => {
   console.log('Hello, ' + resultOfSigning.login + '!');
-  
+
   let client = new Client(...(Object.values(resultOfSigning)));
   client.connect(DBMS);
-  
+
   console.log("Enter -help to get help \n");
   return commandsHandling(client);
 };
@@ -108,7 +109,7 @@ const client = (resultOfSigning) => {
 const start = () => {
   process.stdout.write('\u001B[2J\u001B[0;0f');
   let greetings = '<<FOR FUN DATABASE MANAGMENT SYSTEM>>\n' +
-                  'Welcome!\n' +  
+                  'Welcome!\n' +
                   'Sign in to continue';
   console.log(greetings);
 
