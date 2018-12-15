@@ -25,8 +25,8 @@ const login = () => {
 const help= () => {
   console.log('\n<<Instruction for FF-DBMS>>');
   const manual = 'Options: \n' +
-                 'exit - to exit from dbms; \n' +
-                 'change user - to change user; \n\n' +
+                 '\'exit\' - to exit from dbms; \n' +
+                 '\'change client\' - to change client; \n\n' +
 
                  'createDatabase - to create database \n' +
                  'example: "createDatabase", "name_of_db" \n\n' +
@@ -69,7 +69,7 @@ const parseQuery = input => JSON.parse('[' + input + ']');
 
 const commandsHandling = (client) => {
   rl.question('=> ', (input) => {
-    if (input === '-help') {
+    if (input === '--help') {
       help();
       return commandsHandling(client);
     }
@@ -103,7 +103,7 @@ const client = (resultOfSigning) => {
     return;
   }
 
-  console.log("Enter -help to get help \n");
+  console.log("Enter '--help' to get help \n");
   return commandsHandling(client);
 };
 

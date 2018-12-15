@@ -18,6 +18,7 @@ class DBMS {
       this.identificationData = new Map();
     }
   }
+  
   connect(login, password) {
     if (this.identificationData.has(login) &&
         this.identificationData.get(login).password === password)
