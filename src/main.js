@@ -118,4 +118,5 @@ const start = () => {
   return login().then((resolved) => { client(resolved) });
 };
 
-start();
+start(); // starting point
+

@@ -6,10 +6,8 @@ class ItemSchema { // a class that contains a schema of user`s objects
   }
 
   validityCheck(userObject) { // function to check the pattern match user`s object
-    // validity reducer
-    const reducer = (acc, key) => acc && this.userFields.includes(key);
-
-    let result = Object.keys(userObject).reduce(reducer, true);
+    const keys = Object.keys(userObject);
+    const result = keys.every(key => this.userFields.includes(key));
     return result;
   }
 };

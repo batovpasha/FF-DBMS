@@ -3,6 +3,9 @@
 const DataBase = require('./db.js').DataBase;
 const FSW = require('./fsw.js').FSW;
 
+/*
+  DBMS is singleton class
+*/
 class DBMS {
   constructor() {
     this.fsw = new FSW(this, './db.ff');
@@ -41,48 +44,48 @@ class DBMS {
     }
   }
 
-  createDatabase(name, login) { //
+  createDatabase(name, login) {
     const database = new DataBase(name);
     this.identificationData.get(login).databases.set(name, database);
   }
 
-  dropDatabase(name, login) { //
+  dropDatabase(name, login) {
     if (this.hasDatabase(name, login)) {
       this.identificationData.get(login).databases.delete(name);
     }
   }
 
-  createCollection(database, collection, schema, keys, structType, login) { //
+  createCollection(database, collection, schema, keys, structType, login) { 
     if (this.hasDatabase(database, login)) {
       const db = this.identificationData.get(login).databases.get(database);
       db.createCollection(collection, schema, keys, structType);
     }
   }
 
-  dropCollection(database, collection, login) { //
+  dropCollection(database, collection, login) { 
     if (this.hasDatabase(database, login)) {
       const db = this.identificationData.get(login).databases.get(database);
       db.dropCollection(collection);
     }
   }
 
-  showDatabases(login) { //
+  showDatabases(login) { 
     // get list with all database names
     const list = [...this.identificationData.get(login).databases.keys()];
     console.log(list);
   }
 
-  showCollections(database, login) { //
+  showCollections(database, login) { 
     if (this.hasDatabase(database, login)) {
       const db = this.identificationData.get(login).databases.get(database);
       console.log(db.getNamesOfCollections());
     }
   }
 
-  find(query, database, collection, login) { //
+  find(query, database, collection, login) { 
     if (this.hasDatabase(database, login)) {
       const db = this.identificationData.get(login).databases.get(database);
-      return db.getCollection(collection).find(query);
+      console.log(db.getCollection(collection).find(query));
     }
   }
 
