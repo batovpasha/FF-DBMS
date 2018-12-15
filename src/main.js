@@ -38,7 +38,7 @@ const help= () => {
                  'example: "showDatabases" \n\n' +
 
                  'createCollection - to create collection in database (information schema in ' +
-                 'first array, key schema in second array, type of search struct as last parametr) \n' +
+                 'first array, key schema in second array, type of search struct as last parameter(tree-1, hashSpace-2)) \n' +
                  'example: "createCollection", "name_of_db", "name_of_collection", ["field1", "field2"], ["field"], 1 \n\n' +
 
                  'dropCollection - to drop collection in database \n' +

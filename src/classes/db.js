@@ -33,6 +33,10 @@ class DataBase { // a class that implements the structure and logic of the datab
   }
 }
 
+module.exports = {
+  DataBase
+};
+
 // let db = new DataBase('Users');
 
 // db.createCollection('admins', ['name', 'surname', 'age'], ['name'], 1);
@@ -50,6 +54,3 @@ class DataBase { // a class that implements the structure and logic of the datab
 
 // console.dir(db.getNamesOfCollections());
 
-module.exports = {
-  DataBase
-};
