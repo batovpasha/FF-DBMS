@@ -5,11 +5,11 @@ const FSW = require('./fsw.js').FSW;
 
 class DBMS {
   constructor() {
-    this.fsw = new FSW (this, './db.ff');
-    try{
+    this.fsw = new FSW(this, './db.ff');
+    try {
       console.log('Load from file');
       this.fsw.loadFromFile();
-    } catch (e){
+    } catch (e) {
       console.log(e);
       console.log('New DBMS');
       this.identificationData = new Map();
@@ -114,13 +114,14 @@ class DBMS {
     }
   }
 
-  createCopy(){
+  createCopy() {
     let copy = new Object();
     copy.identificationData = new Object();
     this.identificationData.forEach((value, key) => {
       copy.identificationData[key] = new Object();
       copy.identificationData[key].password = value.password;
       copy.identificationData[key].databases = new Object();
+      
       value.databases.forEach((value_db, key_db) => {
         copy.identificationData[key].databases[key_db] = value_db.createCopy();
       });
@@ -128,7 +129,7 @@ class DBMS {
     return JSON.stringify(copy);
   }
 
-  exit(){
+  exit() {
     this.fsw.saveToFile();
   }
 

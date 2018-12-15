@@ -61,7 +61,7 @@ class Collection { // a class that describes the structure and behavior of the c
     } else console.log("Incorrect item schema!");
   }
 
-  createCopy(){
+  createCopy() {
     let copy = Object.assign({}, this);
     copy.hashTable = new Object();
     this.hashTable.forEach((value, key) => copy.hashTable[key] = value);
@@ -81,6 +81,10 @@ class Collection { // a class that describes the structure and behavior of the c
     if (this.typeOfStruct === 2)
       this.searchStructure = new SearchTree(this.itemSchema.userFields);
   }
+};
+
+module.exports = {
+  Collection
 };
 
 /* ---EXAMPLES--- */
@@ -105,6 +109,4 @@ class Collection { // a class that describes the structure and behavior of the c
 
 // console.dir(col);
 
-module.exports = {
-  Collection
-};
+

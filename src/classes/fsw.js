@@ -6,9 +6,8 @@ const Collection = require('./collection.js').Collection;
 const fs = require('fs');
 const crypto = require('crypto');
 
-
 class FSW {
-  constructor(dbms, file){
+  constructor(dbms, file) { 
     this.dbms = dbms;
     this.file = file;
   }
@@ -24,7 +23,7 @@ class FSW {
     fs.writeFileSync(this.file, this.createHash(this.dbms.createCopy(), 'FF-DBMS'));
   }
 
-  fillCollection(collection, items, password){
+  fillCollection(collection, items, password) {
     for (let key in items) {
       collection.insert(items[key]._item, password);
     }
@@ -32,7 +31,7 @@ class FSW {
 
   createCollections(collections, password) {
     let result = new Map();
-    for (let key in collections){
+    for (let key in collections) {
       let itemSchema = collections[key].itemSchema.userFields;
       let keySchema = collections[key].keySchema;
       let typeOfStruct = collections[key].typeOfStruct;
@@ -45,7 +44,7 @@ class FSW {
 
   createDatabases(databases, password) {
     let result = new Map();
-    for (let key in databases){
+    for (let key in databases) {
       let db = new DataBase(key);
       db.collections = this.createCollections(databases[key].collections, password);
       result.set(key, db);
@@ -65,17 +64,18 @@ class FSW {
     let data = JSON.parse(this.decryptHash(hash, 'FF-DBMS'));
     dbms.identificationData = new Map();
 
-    for (let key in data.identificationData){
+    for (let key in data.identificationData) {
       let value = data.identificationData[key];
       let newValue = new Object();
+
       newValue.password = value.password;
       newValue.databases = this.createDatabases(value.databases, value.password);
+
       dbms.identificationData.set(key, newValue);
     }
   }
 }
 
-
 module.exports = {
   FSW
-}
+};

@@ -86,7 +86,7 @@ const commandsHandling = (client) => {
 
     else {
       client.query(...parseQuery(input));
-      return  commandsHandling(client);
+      return commandsHandling(client);
     }
   });
 };
@@ -95,7 +95,12 @@ const client = (resultOfSigning) => {
   console.log('Hello, ' + resultOfSigning.login + '!');
 
   let client = new Client(...(Object.values(resultOfSigning)));
-  client.connect(DBMS);
+  
+  if (!client.connect(DBMS)) {
+    rl.close();
+    console.log('Good luck!');
+    return;
+  }
 
   console.log("Enter -help to get help \n");
   return commandsHandling(client);

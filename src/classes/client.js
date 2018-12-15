@@ -25,6 +25,13 @@ class Client { // a class that describes the structure and capabilities of the c
 
   connect(dbms) { // method for connecting to database
     this.dbms = dbms.connect(this._login, this._password);
+
+    if (this.dbms) {
+      console.log('Successfuly connected!');
+      return true;
+    } else {
+      return false;
+    }
   }
 
   query(...args) { // method for handling various types of requests to the database
@@ -90,6 +97,10 @@ class Client { // a class that describes the structure and capabilities of the c
   }
 }
 
+module.exports = {
+  Client
+};
+
 /* ---EXAMPLES--- */
 
 // let cl = new Client('client', 'password');
@@ -99,6 +110,4 @@ class Client { // a class that describes the structure and capabilities of the c
 // cl.query('showCollections', 'db');
 // cl.query('showDatabases');
 
-module.exports = {
-  Client
-}
+
