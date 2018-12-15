@@ -34,16 +34,28 @@ class Client { // a class that describes the structure and capabilities of the c
     }
   }
 
+  validCheck(types, args) {
+    const typeCheck = (type, value) => {
+      return Array.isArray(value) && type === '[]'
+           ? Array.isArray(value) === Array.isArray([]) 
+           : type === typeof(value);
+    };  
+    return args
+             .map((el, i) => typeCheck(types[i], el))
+             .every(el => el === true);
+  }
+
   query(...args) { // method for handling various types of requests to the database
     if (args.length === 6) { /* arguments: type of query, name of database,
       name of collection, item schema(array), key schema(array), type of struct(number) */
-      const reducer = (acc, cur, ind) => {
-        acc = acc && (ind < 3 ? typeof(cur) === 'string' : true);
-        acc = acc && (ind > 2 && ind < 5 ? Array.isArray(cur) : true);
-        acc = acc && (ind === 5 ? typeof(cur) === 'number' : true);
-        return acc;
-      }
-      let valid = args.reduce(reducer, true);
+      // const reducer = (acc, cur, ind) => {
+      //   acc = acc && (ind < 3 ? typeof(cur) === 'string' : true);
+      //   acc = acc && (ind > 2 && ind < 5 ? Array.isArray(cur) : true);
+      //   acc = acc && (ind === 5 ? typeof(cur) === 'number' : true);
+      //   return acc;
+      // }
+      const arrayOfTypes = ['string', 'string', 'string', '[]', '[]', 'number'];
+      let valid = this.validCheck(arrayOfTypes, args);
       let typeOfQuery = args.shift();
 
       if (valid && typeOfQuery === 'createCollection') {
