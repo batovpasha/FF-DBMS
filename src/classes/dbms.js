@@ -132,10 +132,6 @@ class DBMS {
   exit() {
     this.fsw.saveToFile();
   }
-
-  print() {
-    console.log(this.identificationData);
-  }
 };
 
 const dbms = new DBMS();
