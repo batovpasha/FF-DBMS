@@ -5,7 +5,7 @@ class ItemSchema { // a class that contains a schema of user`s objects
     this.userFields = arrayOfUserFields.slice();
   }
 
-  validityCheck(userObject) { // function to check the pattern match user`s object
+  isValid(userObject) { // function to check the pattern match user`s object
     const keys = Object.keys(userObject);
     const result = keys.every(key => this.userFields.includes(key));
     return result;

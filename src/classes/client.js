@@ -112,14 +112,3 @@ class Client { // a class that describes the structure and capabilities of the c
 module.exports = {
   Client
 };
-
-/* ---EXAMPLES--- */
-
-// let cl = new Client('client', 'password');
-// cl.query('createCollection', 'db', 'collection', ['name', 'surname', 'age'], ['name'], 1);
-// cl.query('insert', {}, 'db', 'collection');
-// cl.query('dropTable', 'db', 'collection');
-// cl.query('showCollections', 'db');
-// cl.query('showDatabases');
-
-

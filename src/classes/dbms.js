@@ -142,35 +142,3 @@ const dbms = new DBMS();
 module.exports = {
   dbms
 };
-
-// dbms.connect('Pasha', '12345');
-
-// dbms.createDatabase('users1', 'Pasha', '12345');
-// dbms.createDatabase('users2', 'Pasha', '12345');
-// dbms.createDatabase('users3', 'Pasha', '12345');
-// dbms.createDatabase('users4', 'Pasha', '12345');
-// dbms.createDatabase('users5', 'Pasha', '12345');
-
-// dbms.createCollection('users1', 'sd1', ['name', 'surname', 'age'], ['name', 'surname'], 2, 'Pasha', '12345');
-// dbms.createCollection('users1', 'sd2', ['name', 'surname', 'age'], ['name', 'surname'], 2, 'Pasha', '12345');
-// dbms.createCollection('users1', 'sd3', ['name', 'surname', 'age'], ['name', 'surname'], 2, 'Pasha', '12345');
-// dbms.createCollection('users1', 'sd4', ['name', 'surname', 'age'], ['name', 'surname'], 2, 'Pasha', '12345');
-
-
-// dbms.print();
-// dbms.showDatabases('Pasha', '12345');
-// dbms.showCollections('users1', 'Pasha', '12345');
-
-// dbms.insert({ name: 'Pavel', surname: 'Batov' }, 'users1', 'sd1', 'Pasha', '12345');
-// dbms.insert({ name: 'Homer1', surname: 'Simpson' }, 'users1', 'sd1', 'Pasha', '12345');
-// dbms.insert({ name: 'Homer1', surname: 'Simpson' }, 'users1', 'sd1', 'Pasha', '12345');
-// dbms.insert({ name: 'Homer2', surname: 'Simpson' }, 'users1', 'sd1', 'Pasha', '12345');
-// dbms.insert({ name: 'Homer3', surname: 'Simpson' }, 'users1', 'sd1', 'Pasha', '12345');
-// dbms.insert({ name: 'Homer4', surname: 'Simpson' }, 'users1', 'sd1', 'Pasha', '12345');
-
-// console.log(dbms.find({ name: 'Simpson'}, 'users1', 'sd1', 'Pasha', '12345'));
-
-// // dbms.dropDatabase('users1', 'Pasha', '12345');
-// // dbms.showDatabases('Pasha', '12345');
-
-// dbms.printCollection('users1', 'sd1', 'Pasha');

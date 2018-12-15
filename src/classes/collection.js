@@ -29,7 +29,7 @@ class Collection { // a class that describes the structure and behavior of the c
   }
   // method of inserting an element into a hash table
   insert(item, password) { 
-    if (this.itemSchema.validityCheck(item)) {
+    if (this.itemSchema.isValid(item)) {
       const key = this.keySchema.reduce((acc, val) => acc += item[val], '');
       const hash = this.createHash(key, password);
 
@@ -39,7 +39,7 @@ class Collection { // a class that describes the structure and behavior of the c
   }
   // element by key search method
   findOne(query, password) { 
-    if (this.itemSchema.validityCheck(query)) {
+    if (this.itemSchema.isValid(query)) {
       const key = this.keySchema.reduce((acc, val) => acc += query[val], '');
       const hash = this.createHash(key, password);
 
@@ -48,13 +48,13 @@ class Collection { // a class that describes the structure and behavior of the c
   }
   // a method for finding elements in the structure by pattern
   find(query) { 
-    if (this.itemSchema.validityCheck(query)) {
+    if (this.itemSchema.isValid(query)) {
       return this.searchStructure.find(query);
     } else console.log("Incorrect item schema!");
   }
   // method of updating the value according to the given key
   updateItem(item, password) { 
-    if (this.itemSchema.validityCheck(item)) {
+    if (this.itemSchema.isValid(item)) {
       let targetItem = this.findOne(item, password);
 
       Object.keys(item).forEach(key => targetItem[key] = item[key]);
@@ -87,26 +87,5 @@ module.exports = {
   Collection
 };
 
-/* ---EXAMPLES--- */
-
-// let col = new Collection(['name', 'surname', 'age'], ['name', 'surname'], 1);
-
-// let item = {
-//   name: 'Peter',
-//   surname: 'Digger',
-//   age: 23
-// };
-
-// col.insert(item, 'password');
-
-// console.dir(col.findOne(item, 'password'));
-// console.dir(col.find({surname: 'Digger'}));
-// console.dir(col.find({surname: 'Diger'}));
-
-// console.dir(col);
-
-// col.drop();
-
-// console.dir(col);
 
 

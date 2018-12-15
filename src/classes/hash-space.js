@@ -3,7 +3,7 @@
 class HashSpace { // chaining hash table
   constructor() {
     this.space = new Map();
-    this.items = new Array(); // array of all added items
+    this.items = new Array(); // array of all added items(only for print)
   }
 
   createHash(set) {
@@ -12,7 +12,7 @@ class HashSpace { // chaining hash table
 
   getPowerSet(item) { // get all subsets of item values set
     return Object.values(item).reduce((subsets, value) => {
-      return subsets.concat(subsets.map(set => [...set, value]))
+      subsets.concat(subsets.map(set => [...set, value]))
     }, [[]]);
   }
 
@@ -33,9 +33,18 @@ class HashSpace { // chaining hash table
     });
   }
 
+  delete(item) {
+    const hash = this.createHash(Object.values(item).sort());
+    if (this.space.has(hash)) {
+      this.space.delete(hash);
+    } else {
+      console.log('There are no such items in the collection!');
+    }
+  }
+
   find(item) {
     const hash = this.createHash(Object.values(item).sort()); // sort object values for correct order
-
+    
     return this.space.has(hash) ? this.space.get(hash) : null;
   }
 

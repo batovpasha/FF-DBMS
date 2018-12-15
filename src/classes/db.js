@@ -36,21 +36,3 @@ class DataBase { // a class that implements the structure and logic of the datab
 module.exports = {
   DataBase
 };
-
-// let db = new DataBase('Users');
-
-// db.createCollection('admins', ['name', 'surname', 'age'], ['name'], 1);
-// db.createCollection('workers', ['name', 'surname', 'age'], ['name', 'surname'], 1);
-
-// let currCollection = db.getCollection('admins');
-
-// let item = {
-//   name: 'Peter',
-//   surname: 'Digger',
-//   age: 23
-// }
-
-// currCollection.insert(item, 'password');
-
-// console.dir(db.getNamesOfCollections());
-
