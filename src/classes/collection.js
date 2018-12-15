@@ -20,15 +20,15 @@ class Collection { // a class that describes the structure and behavior of the c
     if (typeOfStruct === 2)
       this.searchStructure = new SearchTree(this.itemSchema.userFields);
   }
-
-  createHash(key, password) { // a function that generates a hash value for a given key
+  // a function that generates a hash value for a given key
+  createHash(key, password) { 
     const cipher = crypto.createCipher('aes192', password);
 
     const hash = cipher.update(key, 'utf8', 'hex') + cipher.final('hex');
     return hash;
   }
-
-  insert(item, password) { // method of inserting an element into a hash table
+  // method of inserting an element into a hash table
+  insert(item, password) { 
     if (this.itemSchema.validityCheck(item)) {
       const key = this.keySchema.reduce((acc, val) => acc += item[val], '');
       const hash = this.createHash(key, password);
@@ -37,8 +37,8 @@ class Collection { // a class that describes the structure and behavior of the c
       this.searchStructure.insert(item);
     } else console.log("Incorrect item schema!");
   }
-
-  findOne(query, password) { // element by key search method
+  // element by key search method
+  findOne(query, password) { 
     if (this.itemSchema.validityCheck(query)) {
       const key = this.keySchema.reduce((acc, val) => acc += query[val], '');
       const hash = this.createHash(key, password);
@@ -46,14 +46,14 @@ class Collection { // a class that describes the structure and behavior of the c
       return this.hashTable.get(hash).item;
     } else console.log("Incorrect item schema!");
   }
-
-  find(query) { // a method for finding elements in the structure by pattern
+  // a method for finding elements in the structure by pattern
+  find(query) { 
     if (this.itemSchema.validityCheck(query)) {
       return this.searchStructure.find(query);
     } else console.log("Incorrect item schema!");
   }
-
-  updateItem(item, password) { // method of updating the value according to the given key
+  // method of updating the value according to the given key
+  updateItem(item, password) { 
     if (this.itemSchema.validityCheck(item)) {
       let targetItem = this.findOne(item, password);
 
@@ -72,8 +72,8 @@ class Collection { // a class that describes the structure and behavior of the c
   print() {
     this.searchStructure.print();
   }
-
-  drop() { // method of cleaning the collection
+  // method of cleaning the collection
+  drop() { 
     this.hashTable.clear();
 
     if (this.typeOfStruct === 1)
