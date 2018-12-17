@@ -27,7 +27,7 @@ class Client { // a class that describes the structure and capabilities of the c
     this.dbms = dbms.connect(this._login, this._password);
 
     if (this.dbms) {
-      console.log('Successfuly connected!');
+      console.log('Successfully connected!');
       return true;
     } else {
       return false;
