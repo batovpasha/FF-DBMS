@@ -112,12 +112,12 @@ const client = (resultOfSigning) => {
 
 const start = () => {
   process.stdout.write('\u001B[2J\u001B[0;0f');
+
   const greetings = '<<FOR FUN DATABASE MANAGMENT SYSTEM>>\n' +
                   'Welcome!\n' +
                   'Sign in to continue';
   console.log(greetings);
 
-  let sign = {};
   return login().then((resolved) => { client(resolved) });
 };
 
