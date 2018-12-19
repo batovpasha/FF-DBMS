@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const DataBase = require('./db.js').DataBase;
 const Collection = require('./collection.js').Collection;
