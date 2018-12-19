@@ -107,7 +107,8 @@ class DBMS {
   findOne(query, database, collection, login, password) {
     if (this.hasDatabase(database, login)) {
       const db = this.identificationData.get(login).databases.get(database);
-      return db.getCollection(collection).findOne(query, password);
+      const result = db.getCollection(collection).findOne(query, password);
+      console.log(result);
     }
   }
 
