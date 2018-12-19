@@ -34,12 +34,17 @@ class HashSpace { // chaining hash table
   }
 
   remove(item) {
-    const hash = this.createHash(Object.values(item).sort());
-    if (this.space.has(hash)) {
-      this.space.delete(hash);
-    } else {
-      console.log('There are no such items in the collection!');
-    }
+    let itemValuesPowerSet = this.getPowerSet(item).map(set => set.sort());
+    itemValuesPowerSet.shift();
+
+    itemValuesPowerSet.forEach(set => {
+      const hash = this.createHash(set);
+      if (this.space.has(hash)) {
+        this.space.delete(hash);
+      } else {
+        console.log('There are no such items in the collection!');  
+      }
+    });
   }
 
   find(item) {
@@ -49,7 +54,7 @@ class HashSpace { // chaining hash table
   }
 
   print() {
-    console.log(this.items);
+    console.log([...this.space.values()]);
   }
 }
 
