@@ -56,34 +56,34 @@ class DBMS {
     }
   }
 
-  createCollection(database, collection, schema, keys, structType, login) { 
+  createCollection(database, collection, schema, keys, structType, login) {
     if (this.hasDatabase(database, login)) {
       const db = this.identificationData.get(login).databases.get(database);
       db.createCollection(collection, schema, keys, structType);
     }
   }
 
-  dropCollection(database, collection, login) { 
+  dropCollection(database, collection, login) {
     if (this.hasDatabase(database, login)) {
       const db = this.identificationData.get(login).databases.get(database);
       db.dropCollection(collection);
     }
   }
 
-  showDatabases(login) { 
+  showDatabases(login) {
     // get list with all database names
     const list = [...this.identificationData.get(login).databases.keys()];
     console.log(list);
   }
 
-  showCollections(database, login) { 
+  showCollections(database, login) {
     if (this.hasDatabase(database, login)) {
       const db = this.identificationData.get(login).databases.get(database);
       console.log(db.getNamesOfCollections());
     }
   }
 
-  find(query, database, collection, login) { 
+  find(query, database, collection, login) {
     if (this.hasDatabase(database, login)) {
       const db = this.identificationData.get(login).databases.get(database);
       console.log(db.getCollection(collection).find(query));
@@ -126,7 +126,7 @@ class DBMS {
       copy.identificationData[key] = new Object();
       copy.identificationData[key].password = value.password;
       copy.identificationData[key].databases = new Object();
-      
+
       value.databases.forEach((value_db, key_db) => {
         copy.identificationData[key].databases[key_db] = value_db.createCopy();
       });
@@ -134,10 +134,10 @@ class DBMS {
     return JSON.stringify(copy);
   }
 
-  remove(query, database, collection, login) {
+  remove(query, database, collection, login, password) {
     if (this.hasDatabase(database, login)) {
       const db = this.identificationData.get(login).databases.get(database);
-      db.getCollection(collection).remove(query);
+      db.getCollection(collection).remove(query, password);
     }
   }
 

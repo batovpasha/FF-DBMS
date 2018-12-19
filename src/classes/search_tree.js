@@ -96,22 +96,22 @@ class SearchTree { // a class that describes the structure and implementation of
 
     if (args.length === 1) {
       let result = [];
-      this.find(this.root, args[0], result);
+      if (this.root) this.find(this.root, args[0], result);
       return result;
     }
   }
 
   minimum(current) { // a method for finding a minimal element in the subtree
-    return curr.left === null ? current : minimum(current.left);
+    return (!current.left ? current : this.minimum(current.left));
   }
 
   deleteNode (currNode, key) { // a method for removing an item from the subtree
     if (currNode.left != null && currNode.right != null) {
-      let min = minimum(currNode.right);
+      let min = this.minimum(currNode.right);
       currNode.key = min.key;
       currNode.field = min.field;
       currNode.value = min.value;
-      currNode.right = delete(currNode.right, currNode.key);
+      currNode.right = this.deleteNode(currNode.right, currNode.key);
     } else {
       if (currNode.left != null) currNode = currNode.left;
       else currNode = currNode.right;
@@ -126,14 +126,23 @@ class SearchTree { // a class that describes the structure and implementation of
   remove(...args) { // a method for removing items from a tree by pattern
     if (args.length === 2) {
       let node = args[0];
-      let item = Object.assign({}, args[1]);;
+      let item = Object.assign({}, args[1]);
       let field = node.field;
 
       if (field in item) {
         if (item[field] == node.key) {
           delete item[field];
-          if (Object.keys(item).length === 0) {
-            node = this.deleteNode(node, node[field]);
+          if (!node.alternativeTree){
+            if (Object.keys(item).length === 0) {
+              result.push(node.value);
+              node = this.deleteNode(node, node[field]);
+            } else {
+              let res = true;
+              for (let i in item) res = res && item[i] === node.value[i];
+              if (res){
+                node = null;
+              }
+            }
           } else if (node.alternativeTree) {
             let newAltTree = this.remove(node.alternativeTree, item);
             if (newAltTree) node.value = newAltTree.value;
@@ -146,7 +155,7 @@ class SearchTree { // a class that describes the structure and implementation of
         }
 
         else if (item[field] < node.key && node.left) {
-          node.right = this.remove(node.left, item);
+          node.left = this.remove(node.left, item);
         }
       } else {
         let res = true;
@@ -154,9 +163,10 @@ class SearchTree { // a class that describes the structure and implementation of
         if (res) {
           if (node.alternativeTree) node.alternativeTree = this.remove(node.alternativeTree, item);
           node = this.deleteNode(node, node[field]);
+          if (node) node = this.remove(node, item);
         }
 
-        if (node) {
+        else if (node) {
           if (node.alternativeTree) node.alternativeTree = this.remove(node.alternativeTree, item);
           if (node.right) node.right = this.remove(node.right, item);
           if (node.left) node.left = this.remove(node.left, item);
@@ -166,7 +176,7 @@ class SearchTree { // a class that describes the structure and implementation of
     }
 
     if (args.length === 1) {
-      this.root = this.remove(this.root, args[0])
+      if (this.root) this.root = this.remove(this.root, args[0]);
     }
   }
 };
@@ -176,37 +186,45 @@ module.exports = {
 };
 
 /* ---EXAMPLES--- */
-
-
+//
+//
 // let obj1 = {
 //   name: 'Homer',
 //   surname: 'Simpson',
-//   city: 'Kiev'
 // };
-
+//
 // let obj2 = {
-//   name: 'Pasha',
-//   surname: 'Batov',
-//   city: 'Lutsk'
+//   name: 'Marge',
+//   surname: 'Simpson',
 // };
-
+//
 // let obj3 = {
-//   name: 'Pasha',
-//   surname: 'Zubach',
-//   city: 'Lutsk'
+//   name: 'Meggie',
+//   surname: 'Simpson',
 // };
-
-// let tree = new SearchTree(['name', 'surname', 'city']);
 //
+// let obj4 = {
+//   name: 'Bart',
+//   surname: 'Simpson',
+// };
 //
+// let obj5 = {
+//   name: 'Liza',
+//   surname: 'Simpson',
+// };
+// let tree = new SearchTree(['name', 'surname']);
+// //
+// //
 // tree.insert(obj1);
 // tree.insert(obj2);
 // tree.insert(obj3);
+// tree.insert(obj4);
+// tree.insert(obj5);
+// // //
+// //console.dir(JSON.stringify(tree));
 //
-// let searchQuery = {name: 'Pasha', surname: 'Zubach'};
-//
-// console.dir(tree.remove(searchQuery));
-//
+// let query = {surname: 'Simpson'};
+// //
+// console.dir(tree.remove(query));
+// //
 // console.dir(JSON.stringify(tree));
-
-

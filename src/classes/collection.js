@@ -21,14 +21,14 @@ class Collection { // a class that describes the structure and behavior of the c
       this.searchStructure = new SearchTree(this.itemSchema.userFields);
   }
   // a function that generates a hash value for a given key
-  createHash(key, password) { 
+  createHash(key, password) {
     const cipher = crypto.createCipher('aes192', password);
 
     const hash = cipher.update(key, 'utf8', 'hex') + cipher.final('hex');
     return hash;
   }
   // method of inserting an element into a hash table
-  insert(item, password) { 
+  insert(item, password) {
     if (this.itemSchema.isValid(item)) {
       const key = this.keySchema.reduce((acc, val) => acc += item[val], '');
       const hash = this.createHash(key, password);
@@ -38,7 +38,7 @@ class Collection { // a class that describes the structure and behavior of the c
     } else console.log("Incorrect item schema!");
   }
   // element by key search method
-  findOne(query, password) { 
+  findOne(query, password) {
     if (this.itemSchema.isValid(query)) {
       const key = this.keySchema.reduce((acc, val) => acc += query[val], '');
       const hash = this.createHash(key, password);
@@ -47,13 +47,13 @@ class Collection { // a class that describes the structure and behavior of the c
     } else console.log("Incorrect item schema!");
   }
   // a method for finding elements in the structure by pattern
-  find(query) { 
+  find(query) {
     if (this.itemSchema.isValid(query)) {
       return this.searchStructure.find(query);
     } else console.log("Incorrect item schema!");
   }
   // method of updating the value according to the given key
-  updateItem(item, password) { 
+  updateItem(item, password) {
     if (this.itemSchema.isValid(item)) {
       let targetItem = this.findOne(item, password);
 
@@ -69,7 +69,15 @@ class Collection { // a class that describes the structure and behavior of the c
     return copy;
   }
 
-  remove(item) {
+  deleteFromTable(item, password){
+    const key = this.keySchema.reduce((acc, val) => acc += item[val], '');
+    const hash = this.createHash(key, password);
+    this.hashTable.delete(hash);
+  }
+
+  remove(item, password) {
+    let result = this.searchStructure.find(item);
+    result.forEach((item) => this.deleteFromTable(item, password));
     this.searchStructure.remove(item);
   }
 
@@ -77,7 +85,7 @@ class Collection { // a class that describes the structure and behavior of the c
     this.searchStructure.print();
   }
   // method of cleaning the collection
-  drop() { 
+  drop() {
     this.hashTable.clear();
 
     if (this.typeOfStruct === 1)
@@ -90,6 +98,3 @@ class Collection { // a class that describes the structure and behavior of the c
 module.exports = {
   Collection
 };
-
-
-
