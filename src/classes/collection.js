@@ -7,7 +7,8 @@ const SearchTree = require('./search_tree.js').SearchTree;
 
 const crypto = require('crypto');
 
-class Collection { // a class that describes the structure and behavior of the collection
+// a class that describes the structure and behavior of the collection
+class Collection { 
   constructor(itemSchema, keySchema, typeOfStruct) {
     this.itemSchema = new ItemSchema(itemSchema);
     this.keySchema = keySchema;
@@ -50,7 +51,9 @@ class Collection { // a class that describes the structure and behavior of the c
   find(query) {
     if (this.itemSchema.isValid(query)) {
       return this.searchStructure.find(query);
-    } else console.log("Incorrect item schema!");
+    } else {
+      console.log("Incorrect item schema!")
+    };
   }
   // method of updating the value according to the given key
   updateItem(item, password) {
@@ -61,8 +64,7 @@ class Collection { // a class that describes the structure and behavior of the c
       this.searchStructure.insert(targetItem);
     } else console.log("Incorrect item schema!");
   }
-
-
+  // creating copy of current collection object
   createCopy() {
     let copy = Object.assign({}, this);
     copy.hashTable = new Object();
@@ -70,24 +72,23 @@ class Collection { // a class that describes the structure and behavior of the c
     delete copy.searchStructure;
     return copy;
   }
-
-  deleteFromTable(item, password){
+  // deleting from table of current collection
+  deleteFromTable(item, password) {
     const key = this.keySchema.reduce((acc, val) => acc += item[val], '');
     const hash = this.createHash(key, password);
     this.hashTable.delete(hash);
   }
-
+  // deleting from collection
   remove(item, password) {
     let result = this.searchStructure.find(item);
     result.forEach((item) => this.deleteFromTable(item, password));
     this.searchStructure.remove(item);
   }
-
+  // print collection
   print() {
     this.searchStructure.print();
   }
-  // method of cleaning the collection "update", {"make": "Toyota", "model": "Supra", "year": 2085}, "cars", "Japan"
-
+  // clear and refresh current search structure
   drop() {
     this.hashTable.clear();
 

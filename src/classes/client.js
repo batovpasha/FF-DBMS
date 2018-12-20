@@ -1,6 +1,7 @@
 'use strict';
 
-class Client { // a class that describes the structure and capabilities of the client
+// a class that describes the structure and capabilities of the client
+class Client { 
   constructor(login, password) {
     this._login = login;
     this._password = password;
@@ -34,7 +35,7 @@ class Client { // a class that describes the structure and capabilities of the c
     }
   }
 
-  validCheck(types, args) {
+  isValid(types, args) {
     const typeCheck = (type, value) => {
       return Array.isArray(value) && type === '[]'
            ? Array.isArray(value) === Array.isArray([]) 
@@ -49,15 +50,15 @@ class Client { // a class that describes the structure and capabilities of the c
     if (args.length === 6) { /* arguments: type of query, name of database,
       name of collection, item schema(array), key schema(array), type of struct(number) */
       const arrayOfTypes = ['string', 'string', 'string', '[]', '[]', 'number'];
-      let valid = this.validCheck(arrayOfTypes, args);
+      let valid = this.isValid(arrayOfTypes, args);
       let typeOfQuery = args.shift();
 
       if (valid && typeOfQuery === 'createCollection') {
         return this.dbms[typeOfQuery](...args, this._login, this._password);
       }
     }
-
-    if (args.length === 4) { // arguments: type of query, query object, name of database, name of collection
+    // arguments: type of query, query object, name of database, name of collection
+    if (args.length === 4) { 
       const reducer = (acc, cur, ind) =>
         acc && (ind == 1 ? typeof(cur) === 'object' : typeof(cur) === 'string');
 
@@ -68,8 +69,8 @@ class Client { // a class that describes the structure and capabilities of the c
         return this.dbms[typeOfQuery](...args, this._login, this._password);
       }
     }
-
-    if (args.length === 3) { // arguments: type of query, name of database, name of collection
+    // arguments: type of query, name of database, name of collection
+    if (args.length === 3) { 
       const reducer = (acc, cur) => acc && typeof(cur) === 'string';
 
       let valid = args.reduce(reducer, true);
@@ -80,8 +81,8 @@ class Client { // a class that describes the structure and capabilities of the c
         return this.dbms[typeOfQuery](...args, this._login, this._password);
       }
     }
-
-    if (args.length === 2) { // arguments: type of query, name of database
+    // arguments: type of query, name of database
+    if (args.length === 2) {
       const reducer = (acc, cur) => acc && typeof(cur) === 'string';
 
       let valid = args.reduce(reducer, true);
@@ -91,8 +92,8 @@ class Client { // a class that describes the structure and capabilities of the c
         return this.dbms[typeOfQuery](...args, this._login, this._password);
       }
     }
-
-    if (args.length === 1) { // arguments: type of query
+    // arguments: type of query
+    if (args.length === 1) { 
       let typeOfQuery = args.shift();
 
       if (typeOfQuery === 'showDatabases') {

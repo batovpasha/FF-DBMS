@@ -2,7 +2,8 @@
 
 const Collection = require('./collection.js').Collection;
 
-class DataBase { // a class that implements the structure and logic of the database
+// a class that implements the structure and logic of the database
+class DataBase { 
   constructor(name) {
     this.name = name;
     this.collections = new Map();
@@ -24,7 +25,7 @@ class DataBase { // a class that implements the structure and logic of the datab
   getNamesOfCollections() {
     return Array.from(this.collections.keys());
   }
-
+  // creating copies of collections
   createCopy() {
     let copy = Object.assign({}, this);
     copy.collections = new Object();

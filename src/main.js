@@ -5,11 +5,13 @@ const dbms = require('./classes/dbms.js').dbms;
 
 const readline = require('readline');
 
+// readline interface for user input
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
 
+// promise for sync getting login and password from user
 const login = () => {
   return new Promise((resolve, reject) => {
     rl.question('Login: ', (input) => {
@@ -22,7 +24,8 @@ const login = () => {
   });
 };
 
-const help= () => {
+// fn for printing user instruction
+const help = () => { 
   console.log('\n<<Instruction for FF-DBMS>>');
   const manual = 'Options: \n' +
                  '\'exit\' - to exit from dbms; \n' +
@@ -67,16 +70,16 @@ const help= () => {
 
   console.log(manual);
 };
-
-const parseQuery = input =>{
-  try{
+// fn for parsing user input
+const parseQuery = (input) => {
+  try {
     return JSON.parse('[' + input + ']');
-  } catch(e){
+  } catch(e) {
     console.log("Incorrect syntax!")
     return [];
   }
-}
-
+};
+// input commands handling
 const commandsHandling = (client) => {
   rl.question('=> ', (input) => {
     if (input === '--help') {
@@ -116,7 +119,7 @@ const client = (resultOfSigning) => {
   console.log("Enter '--help' to get help \n");
   return commandsHandling(client);
 };
-
+// starting function
 const start = () => {
   process.stdout.write('\u001B[2J\u001B[0;0f');
 

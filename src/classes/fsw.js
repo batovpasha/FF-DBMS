@@ -11,24 +11,25 @@ class FSW {
     this.dbms = dbms;
     this.file = file;
   }
-
-  createHash(key, password) { // a function that generates a hash value for a given key
+  // a method that generates a hash value for a given key
+  createHash(key, password) { 
     const cipher = crypto.createCipher('aes192', password);
 
     const hash = cipher.update(key, 'utf8', 'hex') + cipher.final('hex');
     return hash;
   }
-
+  // method for saving to file
   saveToFile() {
-    fs.writeFileSync(this.file, this.createHash(this.dbms.createCopy(), 'FF-DBMS'));
+    fs.writeFileSync(this.file, 
+                     this.createHash(this.dbms.createCopy(), 'FF-DBMS'));
   }
-
+  // fill collection by items
   fillCollection(collection, items, password) {
     for (let key in items) {
       collection.insert(items[key]._item, password);
     }
   }
-
+  // method for collections creating
   createCollections(collections, password) {
     let result = new Map();
     for (let key in collections) {
@@ -41,7 +42,7 @@ class FSW {
     }
     return result;
   }
-
+  // creating databases
   createDatabases(databases, password) {
     let result = new Map();
     for (let key in databases) {
@@ -51,13 +52,13 @@ class FSW {
     }
     return result;
   }
-
+  // method for decrypting
   decryptHash(hash, password) {
     const decipher = crypto.createDecipher('aes192', password);
     let data = decipher.update(hash, 'hex', 'utf8') + decipher.final('utf8');
     return data;
   }
-
+  // loading data from file
   loadFromFile() {
     let dbms = this.dbms;
     let hash = fs.readFileSync(this.file).toString();

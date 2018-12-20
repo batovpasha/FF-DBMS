@@ -11,22 +11,26 @@ class Node {
     this.right = null;
   }
 }
-
-class SearchTree { // a class that describes the structure and implementation of the multi-level binary search tree
+/*
+  a class that describes the structure 
+  and implementation of the multi-level 
+  binary search tree
+*/
+class SearchTree { 
   constructor(userFields) {
     this.arrayOfFields = userFields
     this.root = null;
   }
-
-  switchBranch(node, branch, item, field) { // method to switch to another branch when inserting element
+  // method to switch to another branch when inserting element
+  switchBranch(node, branch, item, field) { 
     if (!node[branch]) {
       node[branch] = new Node(field, item[field], item);
     } else {
       this.insert(node[branch], item);
     }
   }
-
-  switchTree(node, field, item) { // method to switch to another tree(alternative) when inserting element
+  // method to switch to another tree(alternative) when inserting element
+  switchTree(node, field, item) { 
     if (!node.alternativeTree) {
       let nextType = this.arrayOfFields[this.arrayOfFields.indexOf(node.field) + 1];
 
@@ -36,14 +40,14 @@ class SearchTree { // a class that describes the structure and implementation of
       }
     } else this.insert(node.alternativeTree, item);
   }
-
-  createRoot(item) { // root initialization method when inserting the first element
+  // root initialization method when inserting the first element
+  createRoot(item) { 
     let field = this.arrayOfFields[0];
     let key = item[field];
     this.root = new Node(field, key, item);
   }
-
-  insert(...args) {  // method of adding a node to a tree
+  // method of adding a node to a tree
+  insert(...args) {  
     if (args.length === 2) {
       let node = args[0];
       let item = args[1];
@@ -51,9 +55,14 @@ class SearchTree { // a class that describes the structure and implementation of
 
       if (!(field in item)) item[field] = '';
 
-      if (item[field] == node.key) this.switchTree(node, field, item);
-      if (item[field] > node.key) this.switchBranch(node, 'right', item, field);
-      if (item[field] < node.key) this.switchBranch(node, 'left', item, field);
+      if (item[field] === node.key) 
+        this.switchTree(node, field, item);
+
+      if (item[field] > node.key) 
+        this.switchBranch(node, 'right', item, field);
+
+      if (item[field] < node.key) 
+        this.switchBranch(node, 'left', item, field);
     } else if (args.length === 1) {
       let item = args[0];
 
@@ -61,8 +70,8 @@ class SearchTree { // a class that describes the structure and implementation of
       else this.insert(this.root, item);
     }
   }
-
-  find(...args) { // method for searching for items in tree (query handler)
+  // method for searching for items in tree (query handler)
+  find(...args) { 
     if (args.length === 3) {
       let node = args[0];
       let item = Object.assign({}, args[1]);;
@@ -100,12 +109,12 @@ class SearchTree { // a class that describes the structure and implementation of
       return result;
     }
   }
-
-  minimum(current) { // a method for finding a minimal element in the subtree
+  // a method for finding a minimal element in the subtree
+  minimum(current) { 
     return (!current.left ? current : this.minimum(current.left));
   }
-
-  deleteNode (currNode, key) { // a method for removing an item from the subtree
+  // a method for removing an item from the subtree
+  deleteNode (currNode, key) { 
     if (currNode.left != null && currNode.right != null) {
       let min = this.minimum(currNode.right);
       currNode.key = min.key;
@@ -122,8 +131,8 @@ class SearchTree { // a class that describes the structure and implementation of
   print() {
     console.log(this.find({}));
   }
-
-  remove(...args) { // a method for removing items from a tree by pattern
+  // a method for removing items from a tree by pattern
+  remove(...args) { 
     if (args.length === 2) {
       let node = args[0];
       let item = Object.assign({}, args[1]);
@@ -184,47 +193,3 @@ class SearchTree { // a class that describes the structure and implementation of
 module.exports = {
   SearchTree
 };
-
-/* ---EXAMPLES--- */
-//
-//
-// let obj1 = {
-//   name: 'Homer',
-//   surname: 'Simpson',
-// };
-//
-// let obj2 = {
-//   name: 'Marge',
-//   surname: 'Simpson',
-// };
-//
-// let obj3 = {
-//   name: 'Meggie',
-//   surname: 'Simpson',
-// };
-//
-// let obj4 = {
-//   name: 'Bart',
-//   surname: 'Simpson',
-// };
-//
-// let obj5 = {
-//   name: 'Liza',
-//   surname: 'Simpson',
-// };
-// let tree = new SearchTree(['name', 'surname']);
-// //
-// //
-// tree.insert(obj1);
-// tree.insert(obj2);
-// tree.insert(obj3);
-// tree.insert(obj4);
-// tree.insert(obj5);
-// // //
-// //console.dir(JSON.stringify(tree));
-//
-// let query = {surname: 'Simpson'};
-// //
-// console.dir(tree.remove(query));
-// //
-// console.dir(JSON.stringify(tree));

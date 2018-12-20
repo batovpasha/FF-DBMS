@@ -32,10 +32,10 @@ class HashSpace { // chaining hash table
       }
     });
   }
-
+  // deleting item from hash space
   remove(item) {
     let itemValuesPowerSet = this.getPowerSet(item).map(set => set.sort());
-    itemValuesPowerSet.shift();
+    itemValuesPowerSet.shift(); // remove empty set
 
     itemValuesPowerSet.forEach(set => {
       const hash = this.createHash(set);
