@@ -48,7 +48,7 @@ const help= () => {
                  'example: "showCollections", "name_of_db" \n\n' +
 
                  'printCollection - to print all items in current collection \n' +
-                 'example: "printCollection", "name_of_db", "name_of_collection" \n\n' +  
+                 'example: "printCollection", "name_of_db", "name_of_collection" \n\n' +
 
                  'insert - to insert item into collection\n' +
                  'example: "insert", {"field1": "value1", "field2": "value2"}, "name_of_db", "name_of_collection" \n\n' +
@@ -68,7 +68,14 @@ const help= () => {
   console.log(manual);
 };
 
-const parseQuery = input => JSON.parse('[' + input + ']');
+const parseQuery = input =>{
+  try{
+    return JSON.parse('[' + input + ']');
+  } catch(e){
+    console.log("Incorrect syntax!")
+    return [];
+  }
+}
 
 const commandsHandling = (client) => {
   rl.question('=> ', (input) => {
@@ -82,8 +89,8 @@ const commandsHandling = (client) => {
       dbms.exit();
       console.log('Good luck!');
       return;
-    } 
-    
+    }
+
     else if (input === 'change client') {
       return start();
     }
@@ -99,10 +106,10 @@ const client = (resultOfSigning) => {
   console.log('Hello, ' + resultOfSigning.login + '!');
 
   let client = new Client(...(Object.values(resultOfSigning)));
-  
+
   if (!client.connect(dbms)) {
     console.log('Try again!');
-    setTimeout(() => start(), 2000); // 2 seconds for incorrect password message 
+    setTimeout(() => start(), 2000); // 2 seconds for incorrect password message
     return;
   }
 
@@ -122,4 +129,3 @@ const start = () => {
 };
 
 start(); // starting point
-

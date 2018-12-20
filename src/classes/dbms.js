@@ -97,7 +97,7 @@ class DBMS {
     }
   }
 
-  updateItem(query, database, collection, login, password) {
+  update(query, database, collection, login, password) {
     if (this.hasDatabase(database, login)) {
       const db = this.identificationData.get(login).databases.get(database);
       return db.getCollection(collection).updateItem(query, password);

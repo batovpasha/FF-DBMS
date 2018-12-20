@@ -56,10 +56,12 @@ class Collection { // a class that describes the structure and behavior of the c
   updateItem(item, password) {
     if (this.itemSchema.isValid(item)) {
       let targetItem = this.findOne(item, password);
-
+      this.searchStructure.remove(targetItem);
       Object.keys(item).forEach(key => targetItem[key] = item[key]);
+      this.searchStructure.insert(targetItem);
     } else console.log("Incorrect item schema!");
   }
+
 
   createCopy() {
     let copy = Object.assign({}, this);
@@ -84,7 +86,8 @@ class Collection { // a class that describes the structure and behavior of the c
   print() {
     this.searchStructure.print();
   }
-  // method of cleaning the collection
+  // method of cleaning the collection "update", {"make": "Toyota", "model": "Supra", "year": 2085}, "cars", "Japan"
+
   drop() {
     this.hashTable.clear();
 

@@ -131,22 +131,22 @@ class SearchTree { // a class that describes the structure and implementation of
 
       if (field in item) {
         if (item[field] == node.key) {
-          delete item[field];
           if (!node.alternativeTree){
-            if (Object.keys(item).length === 0) {
-              result.push(node.value);
-              node = this.deleteNode(node, node[field]);
-            } else {
-              let res = true;
-              for (let i in item) res = res && item[i] === node.value[i];
-              if (res){
-                node = null;
-              }
+            let res = true;
+            for (let i in item) res = res && item[i] === node.value[i];
+            if (res){
+              node = this.deleteNode(node, node[field]);;
             }
           } else if (node.alternativeTree) {
-            let newAltTree = this.remove(node.alternativeTree, item);
-            if (newAltTree) node.value = newAltTree.value;
-            node.alternativeTree = newAltTree;
+            delete item[field];
+            if (Object.keys(item).length != 0){
+              let newAltTree = this.remove(node.alternativeTree, item);
+              if (newAltTree) node.value = newAltTree.value;
+              node.alternativeTree = newAltTree;
+            } else {
+              node.alternativeTree = null;
+              node = this.deleteNode(node, node[field]);
+            }
           }
         }
 
@@ -175,7 +175,7 @@ class SearchTree { // a class that describes the structure and implementation of
       return node;
     }
 
-    if (args.length === 1) {
+    else if (args.length === 1) {
       if (this.root) this.root = this.remove(this.root, args[0]);
     }
   }
