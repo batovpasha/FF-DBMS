@@ -132,7 +132,6 @@ class DBMS {
     copy.identificationData = new Object();
     this.identificationData.forEach((value, key) => {
       copy.identificationData[key] = new Object();
-      
       copy.identificationData[key].password = value.password;
       copy.identificationData[key].databases = new Object();
 

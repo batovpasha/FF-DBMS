@@ -47,4 +47,4 @@ class Item { // a class that contains a user`s object, its hash and id
 module.exports = {
   ItemSchema,
   Item
-};
+}
