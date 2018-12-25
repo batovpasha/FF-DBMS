@@ -21,9 +21,9 @@ class HashSpace { // chaining hash table
     // get all subsets of item values set and sort it for correct order
     let itemValuesPowerSet = this.getPowerSet(item).map(set => set.sort());
     itemValuesPowerSet.shift(); // remove empty set
-
+    
     itemValuesPowerSet.forEach(set => {
-      const hash = this.createHash(set);
+      const hash = item.id.toString() + this.createHash(set); // creating the hash
       if (!this.space.has(hash)) {       // if space have not items by this hash
         this.space.set(hash, []);        // then create empty chain(array)
         this.space.get(hash).push(item); // then push current item
@@ -38,7 +38,7 @@ class HashSpace { // chaining hash table
     itemValuesPowerSet.shift(); // remove empty set
 
     itemValuesPowerSet.forEach(set => {
-      const hash = this.createHash(set);
+      const hash = this.id.toString() + this.createHash(set);
       if (this.space.has(hash)) {
         this.space.delete(hash);
       } else {

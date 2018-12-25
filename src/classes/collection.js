@@ -34,7 +34,9 @@ class Collection {
       const key = this.keySchema.reduce((acc, val) => acc += item[val], '');
       const hash = this.createHash(key, password);
 
-      this.hashTable.set(hash, new Item(hash, ++this.numberOfItems, item));
+      this.hashTable.set(hash, new Item(hash, ++this.numberOfItems, item)); 
+
+      item.id = ++this.numberOfItems; // set id to current item object
       this.searchStructure.insert(item);
     } else console.log("Incorrect item schema!");
   }
