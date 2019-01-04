@@ -60,10 +60,10 @@ class Collection {
   // method of updating the value according to the given key
   updateItem(item, password) {
     if (this.itemSchema.isValid(item)) {
-      let targetItem = this.findOne(item, password);
-      this.searchStructure.remove(targetItem);
-      Object.keys(item).forEach(key => targetItem[key] = item[key]);
-      this.searchStructure.insert(targetItem);
+      let targetItem = this.findOne(item, password); // find item with current keys in collection
+      this.searchStructure.remove(targetItem);       // then remove it 
+      Object.assign(targetItem, item);               // copy new values to the target item
+      this.searchStructure.insert(targetItem);       // insert it finally 
     } else console.log("Incorrect item schema!");
   }
   // creating copy of current collection object
