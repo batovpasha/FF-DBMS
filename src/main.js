@@ -15,9 +15,12 @@ const rl = readline.createInterface({
 const login = () => {
   return new Promise((resolve, reject) => {
     rl.question('Login: ', (input) => {
-      let result = { login: input };
+      let result = { 
+        login: input,
+        password: '' 
+      };
       rl.question('Password: ', (input) => {
-        result['password'] = input;
+        result.password = input;
         resolve(result);
       });
     });
