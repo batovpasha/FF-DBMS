@@ -3,7 +3,7 @@
 class HashSpace { // chaining hash table
   constructor() {
     this.space = new Map();
-    this.items = new Array(); // array of all added items(only for print)
+    this.items = []; // array of all added items(only for print)
   }
 
   createHash(set) {
@@ -38,7 +38,7 @@ class HashSpace { // chaining hash table
     itemValuesPowerSet.shift(); // remove empty set
 
     itemValuesPowerSet.forEach(set => {
-      const hash = this.id.toString() + this.createHash(set);
+      const hash = this.id.toString() + 0this.createHash(set);
       if (this.space.has(hash)) {
         this.space.delete(hash);
       } else {
