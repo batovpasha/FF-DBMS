@@ -1,0 +1,41 @@
+<<Instruction for FF-DBMS>>
+Options: 
+'exit' - to exit from dbms; 
+'change client' - to change client; 
+
+createDatabase - to create database
+example: "createDatabase", "name_of_db"
+
+dropDatabase - to drop database
+example: "dropDatabase", "name_of_db"
+
+showDatabases - to show all databases
+example: "showDatabases"
+
+createCollection - to create collection in database (information schema in first array, key schema in second array, type of search struct as last parameter(tree-1, hashSpace-2))
+example: "createCollection", "name_of_db", "name_of_collection", ["field1", "field2"], ["field"], 1
+
+dropCollection - to drop collection in database  
+example: "dropCollection", "name_of_db", "name_of_collection"
+
+showCollections - to show all collections in database 
+example: "showCollections", "name_of_db"
+
+printCollection - to print all items in current collection
+example: "printCollection", "name_of_db", "name_of_collection"
+
+insert - to insert item into collection\n 
+example: "insert", {"field1": "value1", "field2": "value2"}, "name_of_db", "name_of_collection"
+
+update - to update item in collection\n 
+example: "update", {"field1": "value1", "field2": "value2"}, "name_of_db", "name_of_collection"
+
+find - to find items in collection by pattern 
+example: "find", {"field1": "value1", "field2": "value2"}, "name_of_db", "name_of_collection"
+
+findOne - to find item in collection by key
+example: "findOne", {"field1": "value1", "field2": "value2"}, "name_of_db", "name_of_collection"
+
+remove - to remove item in collection by pattern
+example: "remove", {"field1": "value1", "field2": "value2"}, "name_of_db", "name_of_collection"
+
