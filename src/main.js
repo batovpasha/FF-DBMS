@@ -29,7 +29,7 @@ const login = () => {
         });
       });
     } catch(err) {
-      reject(err);     
+      reject(err);   
     }
   });
 };
@@ -55,23 +55,22 @@ const commandsHandling = (client) => {
   rl.question('=> ', (input) => {
     if (input === '--help') {
       help();
-      return commandsHandling(client);
+      commandsHandling(client);
     }
 
     if (input === 'exit') {
       rl.close();
       dbms.exit();
       console.log('Good luck!');
-      return;
     }
 
     else if (input === 'change client') {
-      return start();
+      start();
     }
 
     else {
       client.query(...parseQuery(input));
-      return commandsHandling(client);
+      commandsHandling(client);
     }
   });
 };
@@ -88,7 +87,7 @@ const client = (resultOfSigning) => {
   }
 
   console.log("Enter '--help' to get help \n");
-  return commandsHandling(client);
+  commandsHandling(client);
 };
 // starting function
 const start = async () => {
