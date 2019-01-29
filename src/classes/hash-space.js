@@ -50,7 +50,8 @@ class HashSpace { // chaining hash table
 
   find(item) {
     // sort object values for correct order
-    const hash = this.createHash(Object.values(item).sort()); 
+    const sortedValues = Object.values(item).sort();
+    const hash = this.createHash(sortedValues); 
     return this.space.has(hash) 
          ? this.space.get(hash) 
          : null;

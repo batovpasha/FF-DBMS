@@ -20,8 +20,13 @@ class FSW {
   }
   // method for saving to file
   saveToFile() {
-    fs.writeFileSync(this.file, 
-                     this.createHash(this.dbms.createCopy(), 'FF-DBMS'));
+    return new Promise((resolve, reject) => {
+      const data = this.createHash(this.dbms.createCopy(), 'FF-DBMS');
+      fs.writeFile(this.file, data, (err) => {
+        if (err) reject(err);
+        resolve(data);
+      });
+    });
   }
   // fill collection by items
   fillCollection(collection, items, password) {

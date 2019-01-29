@@ -29,7 +29,9 @@ class DataBase {
   createCopy() {
     let copy = Object.assign({}, this);
     copy.collections = new Object();
-    this.collections.forEach((value, key) => copy.collections[key] = value.createCopy());
+    this.collections.forEach((value, key) => {
+      copy.collections[key] = value.createCopy();
+    });
     return copy;
   }
 }

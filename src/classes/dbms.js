@@ -142,8 +142,8 @@ class DBMS {
     return JSON.stringify(copy);
   }
 
-  exit() {
-    this.fsw.saveToFile();
+  async exit() {
+    await this.fsw.saveToFile().catch((err) => console.log(err));
   }
 };
 
