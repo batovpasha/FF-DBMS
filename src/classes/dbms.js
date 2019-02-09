@@ -31,7 +31,10 @@ class DBMS {
     }
 
     else {
-      this.identificationData.set(login, { password, databases: new Map() });
+      this.identificationData.set(login, { 
+        password, 
+        databases: new Map() 
+      });
       return this;
     }
   }
@@ -149,6 +152,4 @@ class DBMS {
 
 const dbms = new DBMS(); // singleton object
 
-module.exports = {
-  dbms
-};
+module.exports = { dbms };
