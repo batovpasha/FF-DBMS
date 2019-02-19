@@ -19,25 +19,21 @@ class FSW {
     return hash;
   }
   // method for saving to file
-  saveToFile() {
-    return new Promise((resolve, reject) => {
-      const data = this.createHash(this.dbms.createCopy(), 'FF-DBMS');
-      fs.writeFile(this.file, data, (err) => {
-        if (err) reject(err);
-        resolve(data);
-      });
-    });
+  async saveToFile() {
+    const data = this.createHash(this.dbms.createCopy(), 'FF-DBMS');
+    await fs.promises.writeFile(this.file, data);
+    return data;
   }
   // fill collection by items
   fillCollection(collection, items, password) {
-    for (let key in items) {
+    for (const key in items) {
       collection.insert(items[key]._item, password);
     }
   }
   // method for collections creating
   createCollections(collections, password) {
     let result = new Map();
-    for (let key in collections) {
+    for (const key in collections) {
       let itemSchema = collections[key].itemSchema.userFields;
       let keySchema = collections[key].keySchema;
       let typeOfStruct = collections[key].typeOfStruct;
@@ -50,7 +46,7 @@ class FSW {
   // creating databases
   createDatabases(databases, password) {
     let result = new Map();
-    for (let key in databases) {
+    for (const key in databases) {
       let db = new DataBase(key);
       db.collections = this.createCollections(databases[key].collections, password);
       result.set(key, db);
