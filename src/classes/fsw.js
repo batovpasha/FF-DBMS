@@ -70,8 +70,8 @@ class FSW {
     let data = JSON.parse(this.decryptHash(hash, 'FF-DBMS'));
     dbms.identificationData = new Map();
 
-    for (let key in data.identificationData) {
-      let value = data.identificationData[key];
+    for (const key in data.identificationData) {
+      const value = data.identificationData[key];
       let newValue = new Object();
 
       newValue.password = value.password;
